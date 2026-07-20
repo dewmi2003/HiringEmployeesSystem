@@ -1,0 +1,15 @@
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\bin\Debug\net8.0\Recruitment.Infrastructure.deps.json
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\bin\Debug\net8.0\Recruitment.Infrastructure.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\bin\Debug\net8.0\Recruitment.Infrastructure.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\bin\Debug\net8.0\Recruitment.Domain.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\bin\Debug\net8.0\Recruitment.Domain.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.AssemblyInfo.cs
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitm.AFAD056B.Up2Date
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\refint\Recruitment.Infrastructure.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\Recruitment.Infrastructure.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Infrastructure\obj\Debug\net8.0\ref\Recruitment.Infrastructure.dll

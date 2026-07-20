@@ -1,0 +1,80 @@
+name: Database Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Database/**'
+      - 'Backend/Recruitment.Persistence/**'
+      - '.github/workflows/database-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options: [production, staging]
+
+env:
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  migrate:
+    name: Run EF Core Migrations
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install dotnet-ef CLI tool
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Restore packages
+        run: dotnet restore Backend/Recruitment.Persistence/Recruitment.Persistence.csproj
+
+      - name: Apply EF Core Migrations
+        working-directory: Backend
+        env:
+          ConnectionStrings__DefaultConnection: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+        run: |
+          dotnet ef database update \
+            --project Recruitment.Persistence/Recruitment.Persistence.csproj \
+            --startup-project Recruitment.API/Recruitment.API.csproj \
+            --verbose
+
+  run-sql-scripts:
+    name: Apply Additional SQL Scripts
+    runs-on: ubuntu-latest
+    needs: migrate
+    environment: ${{ github.event.inputs.environment || 'production' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install sqlcmd
+        uses: azure/sql-action@v2.2
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          path: './Database/Indexes.sql'
+
+      - name: Apply Stored Procedures
+        uses: azure/sql-action@v2.2
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          path: './Database/StoredProcedures.sql'
+
+      - name: Apply Seed Data (if first deploy)
+        if: ${{ github.event.inputs.environment == 'production' }}
+        uses: azure/sql-action@v2.2
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          path: './Database/SeedData.sql'

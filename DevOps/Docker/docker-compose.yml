@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+
+  # ASP.NET Core Web API
+  api:
+    build:
+      context: ./Backend
+      dockerfile: Recruitment.API/Dockerfile
+    container_name: recruitment-api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=RecruitmentDB;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True;
+      - Jwt__Key=${JWT_SECRET}
+      - Jwt__Issuer=RecruitmentAPI
+      - Jwt__Audience=RecruitmentClient
+      - AzureBlob__ConnectionString=${BLOB_CONNECTION_STRING}
+      - AI_API_KEY=${AI_API_KEY}
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - recruitment-net
+    restart: unless-stopped
+
+  # SQL Server (local dev)
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: recruitment-sql
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+      - MSSQL_PID=Developer
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${SA_PASSWORD}", "-Q", "SELECT 1" ]
+      interval: 10s
+      retries: 10
+      start_period: 30s
+    networks:
+      - recruitment-net
+    restart: unless-stopped
+
+  # React Frontend Dev Server
+  frontend:
+    image: node:20-alpine
+    container_name: recruitment-frontend
+    working_dir: /app
+    volumes:
+      - ./Frontend/recruitment-client:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080
+    networks:
+      - recruitment-net
+    restart: unless-stopped
+
+volumes:
+  sqldata:
+    driver: local
+
+networks:
+  recruitment-net:
+    driver: bridge

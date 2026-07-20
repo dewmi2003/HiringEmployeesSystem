@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Backend",
+    "\\Backend\\Recruitment.API",
+    "\\Backend\\Recruitment.Application",
+    "\\Backend\\Recruitment.Application\\DTOs",
+    "\\Backend\\Recruitment.Application\\DTOs\\Applications",
+    "\\Backend\\Recruitment.Application\\Interfaces",
+    "\\Backend\\Recruitment.Application\\Interfaces\\Repositories",
+    "\\Backend\\Recruitment.Persistence",
+    "\\Backend\\Recruitment.Persistence\\Repositories"
+  ],
+  "SelectedNode": "\\Backend\\Recruitment.API",
+  "PreviewInSolutionExplorer": false
+}

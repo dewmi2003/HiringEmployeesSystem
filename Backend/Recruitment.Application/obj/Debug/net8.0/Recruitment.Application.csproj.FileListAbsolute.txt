@@ -1,0 +1,15 @@
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\bin\Debug\net8.0\Recruitment.Application.deps.json
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\bin\Debug\net8.0\Recruitment.Application.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\bin\Debug\net8.0\Recruitment.Application.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\bin\Debug\net8.0\Recruitment.Domain.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\bin\Debug\net8.0\Recruitment.Domain.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.csproj.AssemblyReference.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.AssemblyInfoInputs.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.AssemblyInfo.cs
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.csproj.CoreCompileInputs.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitm.B457DA7E.Up2Date
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\refint\Recruitment.Application.dll
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.pdb
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\ref\Recruitment.Application.dll

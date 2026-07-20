@@ -1,0 +1,1 @@
+namespace Recruitment.Infrastructure.Repositories; public class UserRepository {}
