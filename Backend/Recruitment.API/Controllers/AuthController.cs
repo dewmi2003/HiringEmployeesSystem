@@ -9,10 +9,14 @@ namespace Recruitment.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(
+            IAuthService authService,
+            ITokenService tokenService)
         {
             _authService = authService;
+            _tokenService = tokenService;
         }
 
         /// <summary>Login with email and password. Returns a JWT token.</summary>
@@ -47,6 +51,45 @@ namespace Recruitment.API.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(
+        RefreshTokenDto dto)
+        {
+
+        await _tokenService
+        .RevokeRefreshTokenAsync(dto.Token);
+
+
+        return Ok(new
+        {
+        message="Logged out successfully"
+        });
+
+        }
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh(
+        RefreshTokenDto dto)
+        {
+
+
+        var valid =
+        await _tokenService
+        .ValidateRefreshTokenAsync(dto.Token);
+
+
+
+        if(!valid)
+        return Unauthorized();
+
+
+
+        return Ok(new
+        {
+        message="Generate new JWT here"
+        });
+
         }
     }
 }

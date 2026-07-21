@@ -31,6 +31,10 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Remove generated build artifacts
+        shell: bash
+        run: find Backend -type d \( -name bin -o -name obj \) -prune -exec rm -rf {} +
+
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.API_PROJECT_PATH }}
 

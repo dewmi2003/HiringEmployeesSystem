@@ -1,5 +1,5 @@
 using Recruitment.Application.DTOs.HiringDecisions;
-
+using Recruitment.Application.Interfaces.Repositories;
 namespace Recruitment.Application.Interfaces.Services
 {
     /// <summary>Phase 3 - Hiring Decision Workflow service contract.</summary>

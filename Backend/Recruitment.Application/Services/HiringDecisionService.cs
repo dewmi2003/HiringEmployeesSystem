@@ -12,14 +12,6 @@ namespace Recruitment.Application.Services
         private readonly IApplicationStatusHistoryRepository _historyRepo;
         private readonly IUserRepository _userRepo;
 
-        // Allowed status transitions
-        private static readonly Dictionary<string, string> ActionToStatus = new()
-        {
-            { "Shortlisted",    "Shortlisted" },
-            { "Rejected",       "Rejected" },
-            { "OfferExtended",  "OfferExtended" },
-            { "Hired",          "Hired" }
-        };
 
         public HiringDecisionService(
             IHiringDecisionRepository decisionRepo,
@@ -33,57 +25,107 @@ namespace Recruitment.Application.Services
             _userRepo = userRepo;
         }
 
-        public Task<HiringDecisionDto> ShortlistAsync(HiringDecisionActionDto dto)
+
+
+        public Task<HiringDecisionDto> ShortlistAsync(
+            HiringDecisionActionDto dto)
             => MakeDecisionAsync(dto, "Shortlisted");
 
-        public Task<HiringDecisionDto> RejectAsync(HiringDecisionActionDto dto)
+
+
+        public Task<HiringDecisionDto> RejectAsync(
+            HiringDecisionActionDto dto)
             => MakeDecisionAsync(dto, "Rejected");
 
-        public Task<HiringDecisionDto> OfferAsync(HiringDecisionActionDto dto)
+
+
+        public Task<HiringDecisionDto> OfferAsync(
+            HiringDecisionActionDto dto)
             => MakeDecisionAsync(dto, "OfferExtended");
 
-        public Task<HiringDecisionDto> HireAsync(HiringDecisionActionDto dto)
+
+
+        public Task<HiringDecisionDto> HireAsync(
+            HiringDecisionActionDto dto)
             => MakeDecisionAsync(dto, "Hired");
+
+
 
         public async Task<IEnumerable<HiringDecisionDto>> GetAllAsync()
         {
-            var all = await _decisionRepo.GetAllAsync();
-            var dtos = new List<HiringDecisionDto>();
-            foreach (var d in all)
-                dtos.Add(await MapToDtoAsync(d));
-            return dtos;
+            var decisions = await _decisionRepo.GetAllAsync();
+
+            var result = new List<HiringDecisionDto>();
+
+            foreach(var item in decisions)
+            {
+                result.Add(await MapToDtoAsync(item));
+            }
+
+            return result;
         }
+
+
 
         public async Task<HiringDecisionDto?> GetByIdAsync(Guid id)
         {
-            var d = await _decisionRepo.GetByIdAsync(id);
-            return d == null ? null : await MapToDtoAsync(d);
+            var decision =
+                await _decisionRepo.GetByIdAsync(id);
+
+
+            if(decision == null)
+                return null;
+
+
+            return await MapToDtoAsync(decision);
         }
 
-        public async Task<IEnumerable<HiringDecisionDto>> GetByApplicationIdAsync(Guid applicationId)
+
+
+
+        public async Task<IEnumerable<HiringDecisionDto>> 
+            GetByApplicationIdAsync(Guid applicationId)
         {
-            var items = await _decisionRepo.GetByApplicationIdAsync(applicationId);
-            var dtos = new List<HiringDecisionDto>();
-            foreach (var d in items)
-                dtos.Add(await MapToDtoAsync(d));
-            return dtos;
+            var decisions =
+                await _decisionRepo
+                .GetByApplicationIdAsync(applicationId);
+
+
+            var result = new List<HiringDecisionDto>();
+
+
+            foreach(var item in decisions)
+            {
+                result.Add(await MapToDtoAsync(item));
+            }
+
+
+            return result;
         }
 
-        // ─── Core private logic ──────────────────────────────────────────────
 
-        private async Task<HiringDecisionDto> MakeDecisionAsync(HiringDecisionActionDto dto, string decision)
+
+
+        private async Task<HiringDecisionDto> MakeDecisionAsync(
+            HiringDecisionActionDto dto,
+            string decision)
         {
-            var application = await _appRepo.GetByIdAsync(dto.ApplicationId)
-                ?? throw new KeyNotFoundException($"Application {dto.ApplicationId} not found.");
 
-            var user = await _userRepo.GetByIdAsync(dto.DecidedByUserId)
-                ?? throw new KeyNotFoundException($"User {dto.DecidedByUserId} not found.");
+            var application =
+                await _appRepo.GetByIdAsync(dto.ApplicationId)
+                ?? throw new Exception("Application not found");
+
 
             string oldStatus = application.Status;
+
+
             application.Status = decision;
+
+
             await _appRepo.UpdateAsync(application);
 
-            // Record history
+
+
             var history = new ApplicationStatusHistory
             {
                 Id = Guid.NewGuid(),
@@ -94,9 +136,12 @@ namespace Recruitment.Application.Services
                 ChangedAt = DateTime.UtcNow,
                 Comments = dto.Comments
             };
+
+
             await _historyRepo.AddAsync(history);
 
-            // Persist hiring decision
+
+
             var hiringDecision = new HiringDecision
             {
                 Id = Guid.NewGuid(),
@@ -106,27 +151,40 @@ namespace Recruitment.Application.Services
                 Comments = dto.Comments,
                 DecidedAt = DateTime.UtcNow
             };
+
+
             await _decisionRepo.AddAsync(hiringDecision);
+
 
             return await MapToDtoAsync(hiringDecision);
         }
 
-        private async Task<HiringDecisionDto> MapToDtoAsync(HiringDecision d)
+
+
+
+        private async Task<HiringDecisionDto> MapToDtoAsync(
+            HiringDecision d)
         {
-            var app = d.Application ?? await _appRepo.GetByIdAsync(d.ApplicationId);
-            var user = d.DecidedByUser ?? await _userRepo.GetByIdAsync(d.DecidedByUserId);
-            string candidateName = app?.Candidate != null
-                ? $"{app.Candidate.FirstName} {app.Candidate.LastName}"
-                : string.Empty;
-            string jobTitle = app?.Job?.Title ?? string.Empty;
+
+            var application = d.Application 
+                ?? await _appRepo.GetByIdAsync(d.ApplicationId);
+
+
+            var user =
+                d.DecidedByUser
+                ?? await _userRepo.GetByIdAsync(d.DecidedByUserId);
+
+
 
             return new HiringDecisionDto(
                 d.Id,
                 d.ApplicationId,
-                candidateName,
-                jobTitle,
+                application?.Candidate != null
+                ? $"{application.Candidate.FirstName} {application.Candidate.LastName}"
+                : "",
+                application?.Job?.Title ?? "",
                 d.DecidedByUserId,
-                user?.FullName ?? string.Empty,
+                user?.FullName ?? "",
                 d.Decision,
                 d.Comments,
                 d.DecidedAt

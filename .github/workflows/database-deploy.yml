@@ -34,8 +34,12 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
+      - name: Remove generated build artifacts
+        shell: bash
+        run: find Backend -type d \( -name bin -o -name obj \) -prune -exec rm -rf {} +
+
       - name: Install dotnet-ef CLI tool
-        run: dotnet tool install --global dotnet-ef
+        run: dotnet tool install --global dotnet-ef --version 8.*
 
       - name: Restore packages
         run: dotnet restore Backend/Recruitment.Persistence/Recruitment.Persistence.csproj

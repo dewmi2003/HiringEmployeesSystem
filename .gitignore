@@ -50,3 +50,15 @@ copilot-messages.log
 # System files
 .DS_Store
 .project/attachments/files/**
+
+# IDE/user-specific files
+.vs/
+.vscode/
+
+# .NET build outputs
+**/bin/
+**/obj/
+
+# Local verification/deployment artifacts
+artifacts/
+Backend/Recruitment.API/blobs/

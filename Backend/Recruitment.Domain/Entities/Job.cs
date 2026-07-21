@@ -9,6 +9,9 @@ namespace Recruitment.Domain.Entities
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Requirements { get; set; } = string.Empty;
+        public string? Department { get; set; }
+
+        public DateTime PostedDate { get; set; } = DateTime.UtcNow;
         public decimal? Salary { get; set; }
         public string? Location { get; set; }
         public string Status { get; set; } = "Active";

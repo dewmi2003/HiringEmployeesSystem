@@ -10,7 +10,7 @@ namespace Recruitment.Domain.Entities
         // Foreign Key to Application
         public Guid ApplicationId { get; set; }
         public virtual Application? Application { get; set; }
-
+public string Status { get; set; } = "Pending";
         public DateTime ScheduledDate { get; set; }
         public string Location { get; set; } = string.Empty; // e.g. "Zoom", "Teams", "On-site"
 

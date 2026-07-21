@@ -19,7 +19,7 @@ namespace Recruitment.Domain.Entities
         public int Version { get; set; } = 1;
         public bool IsActive { get; set; } = true;
         public bool IsDeleted { get; set; } = false;
-
+        public DateTime UploadedDate {get;set;}
         // Associated Date
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
