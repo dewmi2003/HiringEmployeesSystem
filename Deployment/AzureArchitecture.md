@@ -58,8 +58,17 @@ Azure Application Insights
 | `Jwt__Key` | JWT signing secret |
 | `Jwt__Issuer` | JWT issuer identifier |
 | `Jwt__Audience` | JWT audience |
-| `AzureBlob__ConnectionString` | Blob Storage connection string |
-| `AI_API_KEY` | External AI service API key |
+| `Azure__Enabled` | Enable Azure-backed services |
+| `UseAzureServices` | Enable Azure-backed services |
+| `AzureStorage__ConnectionString` | Blob Storage connection string |
+| `AzureStorage__ContainerName` | Blob container name |
+| `AI__Provider` | `azure` or `openai` |
+| `AI__Azure__Endpoint` | Azure OpenAI endpoint |
+| `AI__Azure__ApiKey` | Azure OpenAI key |
+| `AI__Azure__Deployment` | Azure OpenAI deployment/model |
+| `AI__OpenAI__ApiKey` | OpenAI key if using OpenAI directly |
+| `EmailSettings__Password` | Gmail app password |
+| `CalendarSettings__RefreshToken` | Google Calendar OAuth refresh token |
 | `ASPNETCORE_ENVIRONMENT` | `Production` |
 
 ---

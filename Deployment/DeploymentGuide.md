@@ -79,8 +79,25 @@ az webapp config appsettings set \
     "Jwt__Key=<JWT_SECRET>" \
     "Jwt__Issuer=RecruitmentAPI" \
     "Jwt__Audience=RecruitmentClient" \
-    "AzureBlob__ConnectionString=<BLOB_CONNECTION_STRING>" \
-    "AI_API_KEY=<AI_API_KEY>" \
+    "Azure__Enabled=true" \
+    "UseAzureServices=true" \
+    "AzureStorage__ConnectionString=<BLOB_CONNECTION_STRING>" \
+    "AzureStorage__ContainerName=uploads" \
+    "AI__Provider=azure" \
+    "AI__Azure__Endpoint=<AZURE_OPENAI_ENDPOINT>" \
+    "AI__Azure__ApiKey=<AZURE_OPENAI_API_KEY>" \
+    "AI__Azure__Deployment=<AZURE_OPENAI_DEPLOYMENT>" \
+    "AI__Azure__ApiVersion=2024-10-21" \
+    "EmailSettings__Host=smtp.gmail.com" \
+    "EmailSettings__Port=587" \
+    "EmailSettings__Username=<GMAIL_ADDRESS>" \
+    "EmailSettings__Password=<GMAIL_APP_PASSWORD>" \
+    "EmailSettings__FromEmail=<GMAIL_ADDRESS>" \
+    "CalendarSettings__Provider=Google" \
+    "CalendarSettings__ClientId=<GOOGLE_CLIENT_ID>" \
+    "CalendarSettings__ClientSecret=<GOOGLE_CLIENT_SECRET>" \
+    "CalendarSettings__RefreshToken=<GOOGLE_REFRESH_TOKEN>" \
+    "CalendarSettings__CalendarId=primary" \
     "ASPNETCORE_ENVIRONMENT=Production"
 ```
 
@@ -141,6 +158,10 @@ Go to **GitHub Repo → Settings → Secrets and Variables → Actions** and add
 | `AZURE_SQL_CONNECTION_STRING` | Full SQL connection string |
 | `AZURE_STATIC_WEBAPP_TOKEN` | Token from Step 6 output |
 | `JWT_SECRET` | Random 64-char string |
-| `AI_API_KEY` | Your AI provider API key |
-| `BLOB_CONNECTION_STRING` | Blob Storage connection string |
+| `AZURE_OPENAI_API_KEY` | Azure OpenAI key |
+| `OPENAI_API_KEY` | OpenAI API key if using OpenAI directly |
+| `AZURE_STORAGE_CONNECTION_STRING` | Blob Storage connection string |
+| `GOOGLE_CALENDAR_CLIENT_SECRET` | Google OAuth secret |
+| `GOOGLE_CALENDAR_REFRESH_TOKEN` | Google OAuth refresh token |
+| `GMAIL_APP_PASSWORD` | Gmail SMTP app password |
 | `VITE_API_BASE_URL` | API URL e.g. `https://app-recruitment-api.azurewebsites.net` |

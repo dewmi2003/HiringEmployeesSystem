@@ -8,12 +8,15 @@ namespace Recruitment.Application.Services
     public class ApplicationService : IApplicationService
     {
         private readonly IApplicationRepository _applicationRepository;
+        private readonly IJobRepository _jobRepository;
 
 
         public ApplicationService(
-            IApplicationRepository applicationRepository)
+            IApplicationRepository applicationRepository,
+            IJobRepository jobRepository)
         {
             _applicationRepository = applicationRepository;
+            _jobRepository = jobRepository;
         }
 
 
@@ -66,33 +69,51 @@ namespace Recruitment.Application.Services
 
 
 
-       public async Task<Guid> ApplyToJobAsync(Guid candidateId, CreateApplicationDto dto)
-{
-    var application = new ApplicationEntity
-    {
-        Id = Guid.NewGuid(),
-        CandidateId = candidateId,
-        JobId = dto.JobId,
-        AppliedDate = DateTime.UtcNow,
-        Status = "Pending"
-    };
+        public async Task<Guid> ApplyToJobAsync(Guid candidateId, CreateApplicationDto dto)
+        {
+            var job = await _jobRepository.GetByIdAsync(dto.JobId);
+            if (job == null)
+            {
+                throw new ArgumentException("Job not found.");
+            }
 
-    await _applicationRepository.AddAsync(application);
+            var existingApplications = await _applicationRepository.GetByCandidateIdAsync(candidateId);
+            if (existingApplications.Any(a => a.JobId == dto.JobId))
+            {
+                throw new InvalidOperationException("Candidate has already applied to this job.");
+            }
 
-    return application.Id;
-}
+            var application = new ApplicationEntity
+            {
+                Id = Guid.NewGuid(),
+                CandidateId = candidateId,
+                JobId = dto.JobId,
+                AppliedDate = DateTime.UtcNow,
+                Status = "Pending"
+            };
+
+            await _applicationRepository.AddAsync(application);
+
+            return application.Id;
+        }
 
 
 
         public async Task UpdateStatusAsync(Guid applicationId, UpdateApplicationStatusDto dto)
         {
+            var allowedStatuses = new[] { "Pending", "Shortlisted", "Rejected", "OfferExtended", "Hired", "Withdrawn" };
+            if (!allowedStatuses.Contains(dto.Status, StringComparer.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException("Invalid application status.");
+            }
+
             var application = await _applicationRepository.GetByIdAsync(applicationId);
 
             if (application == null)
-                throw new Exception("Application not found");
+                throw new KeyNotFoundException("Application not found.");
 
 
-            application.Status = dto.Status;
+            application.Status = allowedStatuses.First(x => x.Equals(dto.Status, StringComparison.OrdinalIgnoreCase));
 
             await _applicationRepository.UpdateAsync(application);
         }

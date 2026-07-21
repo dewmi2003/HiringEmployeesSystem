@@ -45,8 +45,6 @@ if (!storageSection.Exists())
 builder.Services.Configure<StorageSettings>(
 storageSection);
 var useAzure = builder.Configuration["Azure:Enabled"] == "true" || builder.Configuration["UseAzureServices"] == "true";
-var azureStorageConnection = builder.Configuration["AzureStorage:ConnectionString"]
-    ?? builder.Configuration["Azure:Storage:ConnectionString"];
 builder.Services.AddScoped<IAuditLogRepository,AuditLogRepository>();
 builder.Services.AddScoped<IApplicationStatusHistoryRepository, ApplicationStatusHistoryRepository>();
 builder.Services.AddScoped<IHiringDecisionRepository, HiringDecisionRepository>();
@@ -55,7 +53,7 @@ builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
 
 builder.Services.AddFluentValidationAutoValidation();
 
-if (useAzure && !string.IsNullOrWhiteSpace(azureStorageConnection))
+if (useAzure)
 {
     builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
 }
@@ -64,7 +62,20 @@ else
     builder.Services.AddScoped<IStorageService, LocalStorageService>();
 }
 
-builder.Services.AddScoped<ICalendarService,GoogleCalendarService>();
+var calendarProvider = builder.Configuration["CalendarSettings:Provider"] ?? "google";
+
+if (calendarProvider.Equals("google", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddHttpClient<ICalendarService, GoogleCalendarService>();
+}
+else if (calendarProvider.Equals("outlook", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddScoped<ICalendarService, OutlookCalendarService>();
+}
+else
+{
+    builder.Services.AddScoped<ICalendarService, LocalCalendarService>();
+}
 builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
 
 
@@ -172,12 +183,13 @@ else
     builder.Services.AddSingleton<IBlobStorage, LocalBlobStorage>();
 }
 
-// AI Adapter selection: use Azure adapter when configured, otherwise local mock
-var aiProvider = builder.Configuration["AI:Provider"] ?? "local";
-if (aiProvider.Equals("azure", StringComparison.OrdinalIgnoreCase))
+// AI Adapter selection: OpenAI/Azure OpenAI are cloud-ready; local exists only as an explicit fallback.
+var aiProvider = builder.Configuration["AI:Provider"] ?? "openai";
+if (aiProvider.Equals("azure", StringComparison.OrdinalIgnoreCase)
+    || aiProvider.Equals("azureopenai", StringComparison.OrdinalIgnoreCase)
+    || aiProvider.Equals("openai", StringComparison.OrdinalIgnoreCase))
 {
-    builder.Services.AddHttpClient<AzureOpenAiAdapter>();
-    builder.Services.AddSingleton<IAiAdapter, AzureOpenAiAdapter>();
+    builder.Services.AddHttpClient<IAiAdapter, AzureOpenAiAdapter>();
 }
 else
 {

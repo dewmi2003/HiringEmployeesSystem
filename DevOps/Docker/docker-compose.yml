@@ -16,8 +16,23 @@ services:
       - Jwt__Key=${JWT_SECRET}
       - Jwt__Issuer=RecruitmentAPI
       - Jwt__Audience=RecruitmentClient
-      - AzureBlob__ConnectionString=${BLOB_CONNECTION_STRING}
-      - AI_API_KEY=${AI_API_KEY}
+      - Azure__Enabled=true
+      - UseAzureServices=true
+      - AzureStorage__ConnectionString=${BLOB_CONNECTION_STRING}
+      - AzureStorage__ContainerName=uploads
+      - AI__Provider=${AI_PROVIDER:-azure}
+      - AI__Azure__Endpoint=${AZURE_OPENAI_ENDPOINT}
+      - AI__Azure__ApiKey=${AZURE_OPENAI_API_KEY}
+      - AI__Azure__Deployment=${AZURE_OPENAI_DEPLOYMENT}
+      - EmailSettings__Host=smtp.gmail.com
+      - EmailSettings__Username=${GMAIL_ADDRESS}
+      - EmailSettings__Password=${GMAIL_APP_PASSWORD}
+      - EmailSettings__FromEmail=${GMAIL_ADDRESS}
+      - CalendarSettings__Provider=Google
+      - CalendarSettings__ClientId=${GOOGLE_CALENDAR_CLIENT_ID}
+      - CalendarSettings__ClientSecret=${GOOGLE_CALENDAR_CLIENT_SECRET}
+      - CalendarSettings__RefreshToken=${GOOGLE_CALENDAR_REFRESH_TOKEN}
+      - CalendarSettings__CalendarId=${GOOGLE_CALENDAR_ID:-primary}
     depends_on:
       sqlserver:
         condition: service_healthy

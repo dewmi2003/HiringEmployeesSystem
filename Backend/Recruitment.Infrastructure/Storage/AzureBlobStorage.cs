@@ -10,7 +10,7 @@ namespace Recruitment.Infrastructure.Storage
     public class AzureBlobStorageService : IStorageService
     {
 
-        private readonly BlobContainerClient _container;
+        private readonly BlobContainerClient? _container;
         private readonly ILogger<AzureBlobStorageService> _logger;
 
 
@@ -21,6 +21,11 @@ namespace Recruitment.Infrastructure.Storage
 
             _logger = logger;
 
+            if (string.IsNullOrWhiteSpace(settings.Value.ConnectionString))
+            {
+                _logger.LogWarning("Azure Blob Storage is enabled but AzureStorage:ConnectionString is not configured.");
+                return;
+            }
 
             var client =
                 new BlobServiceClient(
@@ -44,9 +49,10 @@ namespace Recruitment.Infrastructure.Storage
             string fileName,
             string contentType)
         {
+            var container = GetContainer();
 
             var blob =
-                _container.GetBlobClient(fileName);
+                container.GetBlobClient(fileName);
 
 
 
@@ -76,7 +82,7 @@ namespace Recruitment.Infrastructure.Storage
         {
 
             var blob =
-                _container.GetBlobClient(fileName);
+                GetContainer().GetBlobClient(fileName);
 
 
 
@@ -111,7 +117,7 @@ namespace Recruitment.Infrastructure.Storage
         {
 
             var blob =
-                _container.GetBlobClient(fileName);
+                GetContainer().GetBlobClient(fileName);
 
 
 
@@ -121,6 +127,13 @@ namespace Recruitment.Infrastructure.Storage
             _logger.LogInformation(
                 "Deleted {File}",
                 fileName);
+        }
+
+        private BlobContainerClient GetContainer()
+        {
+            return _container
+                ?? throw new InvalidOperationException(
+                    "Azure Blob Storage is not configured. Set AzureStorage:ConnectionString and AzureStorage:ContainerName.");
         }
 
     }

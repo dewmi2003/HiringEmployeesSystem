@@ -66,20 +66,29 @@ namespace Recruitment.API.Controllers
                 );
             }
 
+            try
+            {
+                var id =
+                    await _service.ApplyToJobAsync(
+                        candidate.Id,
+                        dto
+                    );
 
 
-            var id =
-                await _service.ApplyToJobAsync(
-                    candidate.Id,
-                    dto
+
+                return StatusCode(
+                    201,
+                    new { id }
                 );
-
-
-
-            return StatusCode(
-                201,
-                new { id }
-            );
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
         }
 
 
@@ -161,8 +170,19 @@ namespace Recruitment.API.Controllers
             UpdateApplicationStatusDto dto)
         {
 
-            await _service
-                .UpdateStatusAsync(id, dto);
+            try
+            {
+                await _service
+                    .UpdateStatusAsync(id, dto);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
 
 
             return NoContent();

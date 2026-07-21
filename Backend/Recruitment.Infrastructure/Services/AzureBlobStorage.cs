@@ -8,7 +8,7 @@ namespace Recruitment.Infrastructure.Services
 {
     public class AzureBlobStorage : IBlobStorage
     {
-        private readonly BlobContainerClient _container;
+        private readonly BlobContainerClient? _container;
         private readonly ILogger<AzureBlobStorage> _logger;
 
         public AzureBlobStorage(
@@ -16,6 +16,12 @@ namespace Recruitment.Infrastructure.Services
             ILogger<AzureBlobStorage> logger)
         {
             _logger = logger;
+
+            if (string.IsNullOrWhiteSpace(settings.Value.ConnectionString))
+            {
+                _logger.LogWarning("Azure Blob Storage is enabled but AzureStorage:ConnectionString is not configured.");
+                return;
+            }
 
             var client = new BlobServiceClient(settings.Value.ConnectionString);
             _container = client.GetBlobContainerClient(settings.Value.ContainerName);
@@ -27,8 +33,9 @@ namespace Recruitment.Infrastructure.Services
             string contentType,
             string fileName)
         {
+            var container = GetContainer();
             var blobName = $"{Guid.NewGuid()}_{fileName}";
-            var blob = _container.GetBlobClient(blobName);
+            var blob = container.GetBlobClient(blobName);
 
             await blob.UploadAsync(
                 stream,
@@ -44,7 +51,7 @@ namespace Recruitment.Infrastructure.Services
 
         public async Task<Stream?> DownloadAsync(string blobPath)
         {
-            var blob = _container.GetBlobClient(blobPath);
+            var blob = GetContainer().GetBlobClient(blobPath);
 
             if (!await blob.ExistsAsync())
             {
@@ -60,10 +67,17 @@ namespace Recruitment.Infrastructure.Services
 
         public async Task DeleteAsync(string blobPath)
         {
-            var blob = _container.GetBlobClient(blobPath);
+            var blob = GetContainer().GetBlobClient(blobPath);
             await blob.DeleteIfExistsAsync();
 
             _logger.LogInformation("Deleted blob {BlobPath}", blobPath);
+        }
+
+        private BlobContainerClient GetContainer()
+        {
+            return _container
+                ?? throw new InvalidOperationException(
+                    "Azure Blob Storage is not configured. Set AzureStorage:ConnectionString and AzureStorage:ContainerName.");
         }
     }
 }

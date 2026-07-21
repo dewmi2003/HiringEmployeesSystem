@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Mail;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Recruitment.Application.Interfaces.Services;
 
@@ -10,12 +11,15 @@ namespace Recruitment.Infrastructure.Email
     {
 
         private readonly EmailSettings _settings;
+        private readonly ILogger<EmailService> _logger;
 
 
         public EmailService(
-            IOptions<EmailSettings> settings)
+            IOptions<EmailSettings> settings,
+            ILogger<EmailService> logger)
         {
             _settings = settings.Value;
+            _logger = logger;
         }
 
 
@@ -25,9 +29,22 @@ namespace Recruitment.Infrastructure.Email
             string subject,
             string body)
         {
+            var host = _settings.EffectiveHost;
+            if (string.IsNullOrWhiteSpace(host)
+                || _settings.Port <= 0
+                || string.IsNullOrWhiteSpace(_settings.Username)
+                || string.IsNullOrWhiteSpace(_settings.Password)
+                || string.IsNullOrWhiteSpace(_settings.FromEmail))
+            {
+                _logger.LogWarning(
+                    "Email not sent because SMTP settings are not configured. To={To}, Subject={Subject}",
+                    to,
+                    subject);
+                return;
+            }
 
             using var client = new SmtpClient(
-                _settings.Host,
+                host,
                 _settings.Port);
 
 

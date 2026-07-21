@@ -27,9 +27,19 @@ namespace Recruitment.API.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception");
-                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                httpContext.Response.StatusCode = ex switch
+                {
+                    ArgumentException => (int)HttpStatusCode.BadRequest,
+                    InvalidOperationException => (int)HttpStatusCode.BadRequest,
+                    KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                    UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+                    _ => (int)HttpStatusCode.InternalServerError
+                };
                 httpContext.Response.ContentType = "application/json";
-                var result = JsonSerializer.Serialize(new { error = "An unexpected error occurred." });
+                var message = httpContext.Response.StatusCode == (int)HttpStatusCode.InternalServerError
+                    ? "An unexpected error occurred."
+                    : ex.Message;
+                var result = JsonSerializer.Serialize(new { error = message });
                 await httpContext.Response.WriteAsync(result);
             }
         }
