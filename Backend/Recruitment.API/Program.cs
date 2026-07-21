@@ -79,6 +79,7 @@ builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IResumeAiService, ResumeAiService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<IResumeService, ResumeService>();
 
 // Infrastructure services (email/blob)
 var useAzure = builder.Configuration["Azure:Enabled"] == "true" || builder.Configuration["UseAzureServices"] == "true";

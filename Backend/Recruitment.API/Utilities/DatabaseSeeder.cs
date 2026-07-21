@@ -41,7 +41,7 @@ namespace Recruitment.API.Utilities
                         FullName = "Administrator",
                         RoleId = adminRole?.Id ?? Guid.Empty
                     };
-                    user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd!");
+                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword("P@ssw0rd!");
                     db.Users.Add(user);
                     db.SaveChanges();
                     logger.LogInformation("Seeded admin user.");

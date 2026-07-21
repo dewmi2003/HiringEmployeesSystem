@@ -14,5 +14,6 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\Recruitment.Domain\Recruitment.Domain.csproj" />
+	<ProjectReference Include="..\Recruitment.Application\Recruitment.Application.csproj" />
   </ItemGroup>
 </Project>

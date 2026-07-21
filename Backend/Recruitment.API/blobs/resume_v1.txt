@@ -1,0 +1,1 @@
+My Resume Version 1. I have skills in ASP.NET Core, EF Core, and SQL.

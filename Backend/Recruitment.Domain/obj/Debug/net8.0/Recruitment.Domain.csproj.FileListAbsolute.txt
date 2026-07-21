@@ -5,6 +5,7 @@ C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recrui
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.AssemblyInfoInputs.cache
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.AssemblyInfo.cs
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.csproj.CoreCompileInputs.cache
+C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.sourcelink.json
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.dll
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\refint\Recruitment.Domain.dll
 C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Domain\obj\Debug\net8.0\Recruitment.Domain.pdb

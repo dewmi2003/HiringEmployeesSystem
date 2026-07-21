@@ -13,5 +13,15 @@ namespace Recruitment.Application.DTO.Resumes
         public string FilePath { get; set; } = string.Empty;
 
         public DateTime UploadedDate { get; set; }
+
+        public long FileSize { get; set; }
+
+        public string FileType { get; set; } = string.Empty;
+
+        public int Version { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

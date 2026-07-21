@@ -1,0 +1,18 @@
+{
+    "codex-project-manager.sourceLanguage": {
+        "name": {
+            "en": "English"
+        },
+        "tag": "eng",
+        "refName": "English",
+        "projectStatus": "source"
+    },
+    "codex-project-manager.targetLanguage": {
+        "name": {
+            "en": "English"
+        },
+        "tag": "eng",
+        "refName": "English",
+        "projectStatus": "target"
+    }
+}

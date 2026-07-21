@@ -308,6 +308,9 @@
             "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {
+              "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Application\\Recruitment.Application.csproj": {
+                "projectPath": "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Application\\Recruitment.Application.csproj"
+              },
               "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Domain\\Recruitment.Domain.csproj": {
                 "projectPath": "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Domain\\Recruitment.Domain.csproj"
               }

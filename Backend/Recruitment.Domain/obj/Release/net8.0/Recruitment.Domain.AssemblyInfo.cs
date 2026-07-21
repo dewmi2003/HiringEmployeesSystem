@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Recruitment.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9430fe58b2dac8397e6f75dd22035fa6b0d9125e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Recruitment.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Recruitment.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

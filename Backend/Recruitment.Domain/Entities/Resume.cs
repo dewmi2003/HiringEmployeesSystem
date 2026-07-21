@@ -11,8 +11,14 @@ namespace Recruitment.Domain.Entities
         public virtual Candidate? Candidate { get; set; }
 
         public string FilePath { get; set; } = string.Empty;
+        public string FileName { get; set; } = string.Empty;
+        public long FileSize { get; set; }
+        public string FileType { get; set; } = string.Empty;
         public string ParsedText { get; set; } = string.Empty;
         public int AiScore { get; set; }
+        public int Version { get; set; } = 1;
+        public bool IsActive { get; set; } = true;
+        public bool IsDeleted { get; set; } = false;
 
         // Associated Date
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

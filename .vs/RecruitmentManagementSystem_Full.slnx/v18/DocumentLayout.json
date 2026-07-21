@@ -110,8 +110,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Application\\DTOs\\Applications\\UpdateApplicationStatusDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T18:58:02.356Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T18:58:02.356Z"
             },
             {
               "$type": "Document",
@@ -123,8 +122,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Application\\DTOs\\Applications\\CreateApplicationDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T18:57:42.419Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T18:57:42.419Z"
             },
             {
               "$type": "Document",
@@ -132,9 +130,9 @@
               "Title": "ApplicationService.cs",
               "DocumentMoniker": "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Application\\Services\\ApplicationService.cs",
               "RelativeDocumentMoniker": "Backend\\Recruitment.Application\\Services\\ApplicationService.cs",
-              "ToolTip": "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Application\\Services\\ApplicationService.cs",
-              "RelativeToolTip": "Backend\\Recruitment.Application\\Services\\ApplicationService.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAkwBkAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\CHAMA COMPUTERS\\Desktop\\RecruitmentManagementSystem_Full\\Backend\\Recruitment.Application\\Services\\ApplicationService.cs*",
+              "RelativeToolTip": "Backend\\Recruitment.Application\\Services\\ApplicationService.cs*",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAkwBgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-20T17:48:55.387Z",
               "EditorCaption": ""
@@ -149,8 +147,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Application\\Interfaces\\Repositories\\IApplicationRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:43:57.339Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:43:57.339Z"
             },
             {
               "$type": "Document",
@@ -162,8 +159,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Persistence\\Repositories\\ApplicationRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:43:32.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:43:32.078Z"
             },
             {
               "$type": "Document",
@@ -175,8 +171,7 @@
               "RelativeToolTip": "Backend\\Recruitment.API\\Controllers\\ApplicationsController.cs",
               "ViewState": "AgIAAJUAAAAAAAAAAAAkwK0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:49:34.25Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:49:34.25Z"
             },
             {
               "$type": "Document",
@@ -188,8 +183,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Application\\Interfaces\\Services\\IApplicationService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:43:59.557Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:43:59.557Z"
             },
             {
               "$type": "Document",
@@ -201,8 +195,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Application\\DTOs\\Applications\\ApplicationDtos.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:41:07.345Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:41:07.345Z"
             },
             {
               "$type": "Document",
@@ -214,8 +207,7 @@
               "RelativeToolTip": "Backend\\Recruitment.API\\Program.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAAArwE4AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:55:53.598Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:55:53.598Z"
             },
             {
               "$type": "Document",
@@ -227,8 +219,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Persistence\\DependencyInjection.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAgwCIAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:47:45.491Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:47:45.491Z"
             },
             {
               "$type": "Document",
@@ -240,8 +231,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Persistence\\ApplicationDbContext.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAUwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:45:08.322Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:45:08.322Z"
             },
             {
               "$type": "Document",
@@ -253,8 +243,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Persistence\\Repositories\\UserRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T18:23:21.562Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T18:23:21.562Z"
             },
             {
               "$type": "Document",
@@ -266,8 +255,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Domain\\Entities\\Application.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAgwBAAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:35:56.63Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:35:56.63Z"
             },
             {
               "$type": "Document",
@@ -279,8 +267,7 @@
               "RelativeToolTip": "Backend\\Recruitment.API\\Recruitment.API.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-07-20T18:17:31.038Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T18:17:31.038Z"
             },
             {
               "$type": "Document",
@@ -292,8 +279,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Domain\\Enums\\UserRole.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:58:54.587Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:58:54.587Z"
             },
             {
               "$type": "Document",
@@ -305,8 +291,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Persistence\\Recruitment.Persistence.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-07-20T17:45:11.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:45:11.041Z"
             },
             {
               "$type": "Document",
@@ -318,8 +303,7 @@
               "RelativeToolTip": "Backend\\Recruitment.Domain\\Enums\\ApplicationStatus.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-20T17:39:48.75Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T17:39:48.75Z"
             }
           ]
         }
