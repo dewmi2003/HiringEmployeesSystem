@@ -9,9 +9,9 @@ namespace Recruitment.Application.Interfaces.Services
 
         Task<ApplicationEntity?> GetApplicationByIdAsync(Guid id);
 
-        Task<IEnumerable<ApplicationEntity>> GetApplicationsByJobAsync(Guid jobId);
+        Task<IEnumerable<ApplicationDetailDto>> GetApplicationsByJobAsync(Guid jobId);
 
-        Task<IEnumerable<ApplicationEntity>> GetApplicationsByCandidateAsync(Guid candidateId);
+        Task<IEnumerable<ApplicationListDto>> GetApplicationsByCandidateAsync(Guid candidateId);
 
         Task<Guid> ApplyToJobAsync(Guid candidateId, CreateApplicationDto dto);
 

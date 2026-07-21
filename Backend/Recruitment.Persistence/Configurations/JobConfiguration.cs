@@ -15,7 +15,12 @@ namespace Recruitment.Persistence.Configurations
             builder.Property(j => j.Title)
                 .IsRequired()
                 .HasMaxLength(200);
+            builder.Property(j => j.Department)
+       .HasMaxLength(100);
 
+
+            builder.Property(j => j.PostedDate)
+       .IsRequired();
             builder.Property(j => j.Description)
                 .IsRequired();
 

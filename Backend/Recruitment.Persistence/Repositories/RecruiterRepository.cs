@@ -10,12 +10,12 @@ namespace Recruitment.Persistence.Repositories
     public class RecruiterRepository
         : Repository<Recruiter>, IRecruiterRepository
     {
-        private readonly ApplicationDbContext _context;
+       
 
         public RecruiterRepository(ApplicationDbContext context)
             : base(context)
         {
-            _context = context;
+           
         }
 
 

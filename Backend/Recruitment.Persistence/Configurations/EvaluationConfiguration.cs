@@ -42,7 +42,7 @@ namespace Recruitment.Persistence.Configurations
             builder.HasOne(e => e.HiringManager)
                 .WithMany()
                 .HasForeignKey(e => e.HiringManagerId)
-                .OnDelete(DeleteBehavior.SetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
         }
     }

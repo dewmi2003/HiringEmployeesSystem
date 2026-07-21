@@ -259,9 +259,9 @@ namespace Recruitment.API.Controllers
 
         [HttpGet("search")]
         [Authorize(Roles = "Recruiter,Admin")]
-        public async Task<IActionResult> Search([FromQuery] string searchTerm)
+        public async Task<IActionResult> Search([FromQuery] string? searchTerm)
         {
-            var result = await _resumeService.SearchResumesAsync(searchTerm);
+            var result = await _resumeService.SearchResumesAsync(searchTerm ?? string.Empty);
             return Ok(result);
         }
     }

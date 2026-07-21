@@ -32,16 +32,36 @@ namespace Recruitment.Application.Services
 
 
 
-        public async Task<IEnumerable<ApplicationEntity>> GetApplicationsByJobAsync(Guid jobId)
+        public async Task<IEnumerable<ApplicationDetailDto>> GetApplicationsByJobAsync(Guid jobId)
         {
-            return await _applicationRepository.GetByJobIdAsync(jobId);
+            var applications = await _applicationRepository.GetByJobIdAsync(jobId);
+
+            return applications.Select(a => new ApplicationDetailDto(
+                a.Id,
+                a.CandidateId,
+                a.Candidate == null
+                    ? string.Empty
+                    : $"{a.Candidate.FirstName} {a.Candidate.LastName}".Trim(),
+                a.Candidate?.User?.Email ?? string.Empty,
+                a.JobId,
+                a.Job?.Title ?? string.Empty,
+                a.Status,
+                a.AppliedDate));
         }
 
 
 
-        public async Task<IEnumerable<ApplicationEntity>> GetApplicationsByCandidateAsync(Guid candidateId)
+        public async Task<IEnumerable<ApplicationListDto>> GetApplicationsByCandidateAsync(Guid candidateId)
         {
-            return await _applicationRepository.GetByCandidateIdAsync(candidateId);
+            var applications = await _applicationRepository.GetByCandidateIdAsync(candidateId);
+
+            return applications.Select(a => new ApplicationListDto(
+                a.Id,
+                a.JobId,
+                a.Job?.Title ?? string.Empty,
+                a.Job?.Company?.Name ?? string.Empty,
+                a.Status,
+                a.AppliedDate));
         }
 
 

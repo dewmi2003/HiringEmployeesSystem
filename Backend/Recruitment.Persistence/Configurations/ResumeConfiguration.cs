@@ -13,7 +13,7 @@ namespace Recruitment.Persistence.Configurations
             builder.Property(r => r.FilePath).IsRequired().HasMaxLength(500);
             builder.Property(r => r.FileName).IsRequired().HasMaxLength(255);
             builder.Property(r => r.FileSize).IsRequired();
-            builder.Property(r => r.FileType).IsRequired().HasMaxLength(50);
+            builder.Property(r => r.FileType).IsRequired().HasMaxLength(200);
             builder.Property(r => r.ParsedText).IsRequired();
             builder.Property(r => r.AiScore).IsRequired();
             builder.Property(r => r.Version).IsRequired().HasDefaultValue(1);

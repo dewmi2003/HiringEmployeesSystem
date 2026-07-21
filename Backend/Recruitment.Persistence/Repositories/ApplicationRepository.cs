@@ -18,7 +18,9 @@ public ApplicationRepository(ApplicationDbContext context)
         {
             return await _context.Applications
                 .Include(a => a.Candidate)
+                    .ThenInclude(c => c.User)
                 .Include(a => a.Job)
+                    .ThenInclude(j => j.Company)
                 .ToListAsync();
         }
 
@@ -26,7 +28,9 @@ public ApplicationRepository(ApplicationDbContext context)
         {
             return await _context.Applications
                 .Include(a => a.Candidate)
+                    .ThenInclude(c => c.User)
                 .Include(a => a.Job)
+                    .ThenInclude(j => j.Company)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -34,7 +38,9 @@ public ApplicationRepository(ApplicationDbContext context)
         {
             return await _context.Applications
                 .Include(a => a.Candidate)
+                    .ThenInclude(c => c.User)
                 .Include(a => a.Job)
+                    .ThenInclude(j => j.Company)
                 .Where(a => a.JobId == jobId)
                 .ToListAsync();
         }
@@ -43,7 +49,9 @@ public ApplicationRepository(ApplicationDbContext context)
         {
             return await _context.Applications
                 .Include(a => a.Candidate)
+                    .ThenInclude(c => c.User)
                 .Include(a => a.Job)
+                    .ThenInclude(j => j.Company)
                 .Where(a => a.CandidateId == candidateId)
                 .ToListAsync();
         }

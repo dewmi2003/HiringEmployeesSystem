@@ -60,7 +60,7 @@ namespace Recruitment.Application.Services
                 Id = Guid.NewGuid(),
                 Name = dto.Name,
                 Description = dto.Description,
-                Website = dto.Website,
+                Website = dto.Website ?? string.Empty,
                 Address = dto.Address
             };
 

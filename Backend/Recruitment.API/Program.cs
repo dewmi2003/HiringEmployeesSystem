@@ -15,11 +15,70 @@ using Microsoft.AspNetCore.Identity;
 using Recruitment.Domain.Entities;
 using Recruitment.Application.Interfaces.Repositories;
 using Recruitment.Persistence.Repositories;
+using Recruitment.Infrastructure.Email;
+using Recruitment.Infrastructure.Storage;
+using Recruitment.Infrastructure.Calendar;
+using Recruitment.API.Middleware;
+using Recruitment.Application.Validators.Auth;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuration & Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IHiringManagerDashboardService, HiringManagerDashboardService>();
+builder.Services.AddScoped<IHiringManagerDashboardRepository,HiringManagerDashboardRepository>();
+builder.Services.AddScoped<IRecruiterDashboardService, RecruiterDashboardService>();
+builder.Services.AddScoped<IApplicationStatusHistoryService, ApplicationStatusHistoryService>();
+builder.Services.AddScoped<IHiringDecisionService, HiringDecisionService>();
+builder.Services.AddScoped<IEvaluationService, EvaluationService>();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.Configure<CalendarSettings>(
+builder.Configuration.GetSection("CalendarSettings"));
+var storageSection = builder.Configuration.GetSection("AzureStorage");
+if (!storageSection.Exists())
+{
+    storageSection = builder.Configuration.GetSection("Azure:Storage");
+}
+builder.Services.Configure<StorageSettings>(
+storageSection);
+var useAzure = builder.Configuration["Azure:Enabled"] == "true" || builder.Configuration["UseAzureServices"] == "true";
+var azureStorageConnection = builder.Configuration["AzureStorage:ConnectionString"]
+    ?? builder.Configuration["Azure:Storage:ConnectionString"];
+builder.Services.AddScoped<IAuditLogRepository,AuditLogRepository>();
+builder.Services.AddScoped<IApplicationStatusHistoryRepository, ApplicationStatusHistoryRepository>();
+builder.Services.AddScoped<IHiringDecisionRepository, HiringDecisionRepository>();
+builder.Services.AddValidatorsFromAssembly(typeof(LoginValidator).Assembly);
+
+
+builder.Services.AddFluentValidationAutoValidation();
+
+if (useAzure && !string.IsNullOrWhiteSpace(azureStorageConnection))
+{
+    builder.Services.AddScoped<IStorageService, AzureBlobStorageService>();
+}
+else
+{
+    builder.Services.AddScoped<IStorageService, LocalStorageService>();
+}
+
+builder.Services.AddScoped<ICalendarService,GoogleCalendarService>();
+builder.Services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
+
+
+builder.Services.AddScoped<ITokenService,TokenService>();
+builder.Services.AddScoped<Recruitment.Application.Interfaces.Services.IEmailService, EmailService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IReportRepository,ReportRepository>();
+builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
+builder.Services.AddScoped<INotificationRepository,NotificationRepository>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ICandidateService, CandidateService>();
+
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -47,6 +106,26 @@ builder.Services.AddSwaggerGen(options =>
             Array.Empty<string>()
         }
     });
+});
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{options.InvalidModelStateResponseFactory =context =>
+{
+
+return new BadRequestObjectResult(
+new
+{
+
+message="Validation failed",
+
+errors=context.ModelState
+.Values
+.SelectMany(x=>x.Errors)
+.Select(x=>x.ErrorMessage)
+
+});
+
+};
+
 });
 
 // Database
@@ -79,18 +158,17 @@ builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IResumeAiService, ResumeAiService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IResumeService, ResumeService>();
+builder.Services.AddScoped<IResumeService, Recruitment.Application.Services.ResumeService>();
 
 // Infrastructure services (email/blob)
-var useAzure = builder.Configuration["Azure:Enabled"] == "true" || builder.Configuration["UseAzureServices"] == "true";
 if (useAzure)
 {
-    builder.Services.AddSingleton<IEmailService, SendGridEmailService>();
+    builder.Services.AddSingleton<Recruitment.Infrastructure.Services.IEmailService, SendGridEmailService>();
     builder.Services.AddSingleton<IBlobStorage, AzureBlobStorage>();
 }
 else
 {
-    builder.Services.AddSingleton<IEmailService, MockEmailService>();
+    builder.Services.AddSingleton<Recruitment.Infrastructure.Services.IEmailService, MockEmailService>();
     builder.Services.AddSingleton<IBlobStorage, LocalBlobStorage>();
 }
 
@@ -185,5 +263,5 @@ catch (Exception ex)
     var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Seed");
     logger.LogError(ex, "Database seeding failed.");
 }
-
+app.UseMiddleware<AuditMiddleware>();
 app.Run();

@@ -17,6 +17,9 @@ namespace Recruitment.Persistence.Configurations
                 .WithMany(a => a.Interviews)
                 .HasForeignKey(i => i.ApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Property(i => i.Status)
+       .HasMaxLength(50)
+       .IsRequired();
         }
     }
 }
