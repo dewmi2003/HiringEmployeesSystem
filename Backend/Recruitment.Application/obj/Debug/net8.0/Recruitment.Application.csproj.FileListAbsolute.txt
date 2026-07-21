@@ -1,6 +1,0 @@
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.csproj.AssemblyReference.cache
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.AssemblyInfoInputs.cache
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.AssemblyInfo.cs
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.csproj.CoreCompileInputs.cache
-C:\Users\CHAMA COMPUTERS\Desktop\RecruitmentManagementSystem_Full\Backend\Recruitment.Application\obj\Debug\net8.0\Recruitment.Application.sourcelink.json
