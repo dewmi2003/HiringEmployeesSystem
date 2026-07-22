@@ -43,41 +43,52 @@ namespace Recruitment.Infrastructure.Email
                 return;
             }
 
-            using var client = new SmtpClient(
-                host,
-                _settings.Port);
+            try
+            {
+                using var client = new SmtpClient(
+                    host,
+                    _settings.Port);
 
 
-            client.EnableSsl = true;
+                client.EnableSsl = true;
 
 
-            client.Credentials =
-                new NetworkCredential(
-                    _settings.Username,
-                    _settings.Password);
-
-
-
-            var mail =
-                new MailMessage();
-
-
-            mail.From =
-                new MailAddress(
-                    _settings.FromEmail);
-
-
-            mail.To.Add(to);
-
-            mail.Subject = subject;
-
-            mail.Body = body;
-
-            mail.IsBodyHtml = true;
+                client.Credentials =
+                    new NetworkCredential(
+                        _settings.Username,
+                        _settings.Password);
 
 
 
-            await client.SendMailAsync(mail);
+                var mail =
+                    new MailMessage();
+
+
+                mail.From =
+                    new MailAddress(
+                        _settings.FromEmail);
+
+
+                mail.To.Add(to);
+
+                mail.Subject = subject;
+
+                mail.Body = body;
+
+                mail.IsBodyHtml = true;
+
+
+
+                await client.SendMailAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(
+                    ex,
+                    "Email send failed. To={To}, Subject={Subject}",
+                    to,
+                    subject);
+            }
         }
     }
 }

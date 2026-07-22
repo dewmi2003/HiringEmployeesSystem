@@ -9,14 +9,17 @@ namespace Recruitment.Application.Services
     {
         private readonly IApplicationRepository _applicationRepository;
         private readonly IJobRepository _jobRepository;
+        private readonly IEmailService _emailService;
 
 
         public ApplicationService(
             IApplicationRepository applicationRepository,
-            IJobRepository jobRepository)
+            IJobRepository jobRepository,
+            IEmailService emailService)
         {
             _applicationRepository = applicationRepository;
             _jobRepository = jobRepository;
+            _emailService = emailService;
         }
 
 
@@ -116,6 +119,23 @@ namespace Recruitment.Application.Services
             application.Status = allowedStatuses.First(x => x.Equals(dto.Status, StringComparison.OrdinalIgnoreCase));
 
             await _applicationRepository.UpdateAsync(application);
+
+            var candidateEmail = application.Candidate?.User?.Email;
+            if (!string.IsNullOrWhiteSpace(candidateEmail))
+            {
+                var jobTitle = application.Job?.Title ?? "your job application";
+                var body = $"""
+                    <p>Hello {application.Candidate?.FirstName ?? "Candidate"},</p>
+                    <p>Your application for <strong>{jobTitle}</strong> has been updated.</p>
+                    <p>New status: <strong>{application.Status}</strong></p>
+                    <p>Thank you,<br/>Recruitment Team</p>
+                    """;
+
+                await _emailService.SendEmailAsync(
+                    candidateEmail,
+                    $"Application status updated: {application.Status}",
+                    body);
+            }
         }
 
 
