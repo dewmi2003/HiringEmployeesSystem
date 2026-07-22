@@ -6,9 +6,10 @@ Configuration
 - For Azure App Service, set these values in Configuration > Application settings / Connection strings.
   - ConnectionStrings:DefaultConnection
   - Jwt__Key, Jwt__Issuer, Jwt__Audience
-  - AI:Provider = "azure" or "openai"
-  - For Azure AI, set AI:Azure:Endpoint, AI:Azure:ApiKey, and AI:Azure:Deployment
-  - For OpenAI, set AI:OpenAI:ApiKey and AI:OpenAI:Model
+  - AI__Provider = GitHub Models
+  - AI__GitHub__Endpoint = https://models.github.ai/inference
+  - AI__GitHub__Token = GitHub personal access token
+  - AI__GitHub__Model = openai/gpt-4.1
   - EmailSettings:Host, EmailSettings:Port, EmailSettings:Username, EmailSettings:Password, EmailSettings:FromEmail
   - CalendarSettings:Provider, CalendarSettings:ClientId, CalendarSettings:ClientSecret, CalendarSettings:RefreshToken
   - SeedDemoData = true seeds 100 demo rows for the main backend workflow tables

@@ -194,13 +194,13 @@ else
     builder.Services.AddSingleton<IBlobStorage, LocalBlobStorage>();
 }
 
-// AI Adapter selection: OpenAI/Azure OpenAI are cloud-ready; local exists only as an explicit fallback.
-var aiProvider = builder.Configuration["AI:Provider"] ?? "openai";
-if (aiProvider.Equals("azure", StringComparison.OrdinalIgnoreCase)
-    || aiProvider.Equals("azureopenai", StringComparison.OrdinalIgnoreCase)
-    || aiProvider.Equals("openai", StringComparison.OrdinalIgnoreCase))
+// AI Adapter selection: GitHub Models is cloud-ready; local exists only as an explicit fallback.
+var aiProvider = builder.Configuration["AI:Provider"] ?? "GitHub Models";
+if (aiProvider.Equals("GitHub Models", StringComparison.OrdinalIgnoreCase)
+    || aiProvider.Equals("github", StringComparison.OrdinalIgnoreCase)
+    || aiProvider.Equals("githubmodels", StringComparison.OrdinalIgnoreCase))
 {
-    builder.Services.AddHttpClient<IAiAdapter, AzureOpenAiAdapter>();
+    builder.Services.AddHttpClient<IAiAdapter, GitHubModelsAdapter>();
 }
 else
 {

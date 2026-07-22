@@ -16,18 +16,11 @@ Azure Blob Storage for CV uploads
 - AzureStorage__ConnectionString = Azure Storage connection string
 - AzureStorage__ContainerName = uploads
 
-Azure OpenAI
-- AI__Provider = azure
-- AI__Azure__Endpoint = https://YOUR-RESOURCE-NAME.openai.azure.com
-- AI__Azure__ApiKey = Azure OpenAI key
-- AI__Azure__Deployment = deployed model/deployment name
-- AI__Azure__ApiVersion = 2024-10-21
-
-OpenAI alternative
-- AI__Provider = openai
-- AI__OpenAI__ApiKey = OpenAI API key
-- AI__OpenAI__Model = model name
-- AI__OpenAI__Endpoint = https://api.openai.com/v1/chat/completions
+GitHub Models
+- AI__Provider = GitHub Models
+- AI__GitHub__Endpoint = https://models.github.ai/inference
+- AI__GitHub__Token = GitHub personal access token with models access
+- AI__GitHub__Model = openai/gpt-4.1
 
 Gmail SMTP
 - EmailSettings__Host = smtp.gmail.com
