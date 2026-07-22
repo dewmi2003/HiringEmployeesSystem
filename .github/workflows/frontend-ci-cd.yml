@@ -2,7 +2,7 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [main, development]
+    branches: [main, development, frontend-Sineli36034]
     paths:
       - 'Frontend/**'
       - '.github/workflows/frontend-ci-cd.yml'
@@ -54,4 +54,4 @@ jobs:
           action: 'upload'
           app_location: ${{ env.APP_LOCATION }}
           output_location: ${{ env.OUTPUT_LOCATION }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/frontend-Sineli36034')
