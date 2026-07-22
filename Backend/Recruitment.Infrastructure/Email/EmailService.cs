@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Mail;
+using Recruitment.Application.DTOs.Email;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Recruitment.Application.Interfaces.Services;
@@ -24,12 +25,24 @@ namespace Recruitment.Infrastructure.Email
 
 
 
-        public async Task SendEmailAsync(
+        public async Task<EmailSendResult> SendEmailAsync(
             string to,
             string subject,
             string body)
         {
             var host = _settings.EffectiveHost;
+            var provider = string.IsNullOrWhiteSpace(host)
+                ? "SMTP"
+                : $"SMTP:{host}:{_settings.Port}";
+
+            if (string.IsNullOrWhiteSpace(to))
+            {
+                return new EmailSendResult(
+                    false,
+                    "Recipient email is required.",
+                    provider);
+            }
+
             if (string.IsNullOrWhiteSpace(host)
                 || _settings.Port <= 0
                 || string.IsNullOrWhiteSpace(_settings.Username)
@@ -40,7 +53,10 @@ namespace Recruitment.Infrastructure.Email
                     "Email not sent because SMTP settings are not configured. To={To}, Subject={Subject}",
                     to,
                     subject);
-                return;
+                return new EmailSendResult(
+                    false,
+                    "SMTP settings are incomplete. Check EmailSettings Host, Port, Username, Password, and FromEmail.",
+                    provider);
             }
 
             try
@@ -49,14 +65,12 @@ namespace Recruitment.Infrastructure.Email
                     host,
                     _settings.Port);
 
-
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.EnableSsl = true;
-
-
-                client.Credentials =
-                    new NetworkCredential(
-                        _settings.Username,
-                        _settings.Password);
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(
+                    _settings.Username,
+                    _settings.Password);
 
 
 
@@ -66,7 +80,8 @@ namespace Recruitment.Infrastructure.Email
 
                 mail.From =
                     new MailAddress(
-                        _settings.FromEmail);
+                        _settings.FromEmail,
+                        _settings.FromName);
 
 
                 mail.To.Add(to);
@@ -80,6 +95,16 @@ namespace Recruitment.Infrastructure.Email
 
 
                 await client.SendMailAsync(mail);
+
+                _logger.LogInformation(
+                    "Email sent successfully. To={To}, Subject={Subject}",
+                    to,
+                    subject);
+
+                return new EmailSendResult(
+                    true,
+                    "Email sent.",
+                    provider);
             }
             catch (Exception ex)
             {
@@ -88,7 +113,26 @@ namespace Recruitment.Infrastructure.Email
                     "Email send failed. To={To}, Subject={Subject}",
                     to,
                     subject);
+
+                return new EmailSendResult(
+                    false,
+                    $"SMTP send failed: {BuildErrorMessage(ex)}",
+                    provider);
             }
+        }
+
+        private static string BuildErrorMessage(Exception ex)
+        {
+            if (ex.InnerException == null
+                || string.Equals(
+                    ex.Message,
+                    ex.InnerException.Message,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return ex.Message;
+            }
+
+            return $"{ex.Message} {ex.InnerException.Message}";
         }
     }
 }

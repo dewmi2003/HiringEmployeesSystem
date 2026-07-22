@@ -12,17 +12,20 @@ namespace Recruitment.Application.Services
         private readonly IApplicationRepository _applicationRepository;
         private readonly ICalendarService _calendarService;
         private readonly INotificationService _notificationService;
+        private readonly IEmailService _emailService;
 
         public InterviewService(
             IInterviewRepository interviewRepository,
             IApplicationRepository applicationRepository,
             ICalendarService calendarService,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IEmailService emailService)
         {
             _interviewRepository = interviewRepository;
             _applicationRepository = applicationRepository;
             _calendarService = calendarService;
             _notificationService = notificationService;
+            _emailService = emailService;
         }
 
         public async Task<ScheduledInterviewDto> ScheduleInterviewAsync(CreateInterviewDto dto)
@@ -74,6 +77,23 @@ namespace Recruitment.Application.Services
                 });
             }
 
+            var emailResult = "Email skipped because candidate email is empty.";
+            if (!string.IsNullOrWhiteSpace(candidateEmail))
+            {
+                var result = await _emailService.SendEmailAsync(
+                    candidateEmail,
+                    $"Interview scheduled - {jobTitle}",
+                    EmailTemplateBuilder.InterviewScheduled(
+                        candidateName,
+                        jobTitle,
+                        start,
+                        end,
+                        interview.Location,
+                        calendarResult));
+
+                emailResult = result.Message;
+            }
+
             return new ScheduledInterviewDto(
                 interview.Id,
                 interview.ApplicationId,
@@ -84,7 +104,8 @@ namespace Recruitment.Application.Services
                 end,
                 interview.Location,
                 interview.Status,
-                calendarResult);
+                calendarResult,
+                emailResult);
         }
 
         public async Task<IEnumerable<InterviewDto>> GetAllAsync()

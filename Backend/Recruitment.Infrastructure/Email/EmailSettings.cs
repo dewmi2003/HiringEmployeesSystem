@@ -14,6 +14,8 @@ namespace Recruitment.Infrastructure.Email
 
         public string FromEmail { get; set; } = string.Empty;
 
+        public string FromName { get; set; } = "TalentAI Recruitment";
+
         public string EffectiveHost =>
             string.IsNullOrWhiteSpace(Host)
                 ? Server

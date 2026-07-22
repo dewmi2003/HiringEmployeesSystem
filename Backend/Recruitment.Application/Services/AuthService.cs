@@ -11,18 +11,21 @@ namespace Recruitment.Application.Services
         private readonly IRoleRepository _roleRepo;
         private readonly ICandidateRepository _candidateRepo;
         private readonly IJwtService _jwtService;
+        private readonly IEmailService _emailService;
 
 
         public AuthService(
             IUserRepository userRepo,
             IRoleRepository roleRepo,
             ICandidateRepository candidateRepo,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IEmailService emailService)
         {
             _userRepo = userRepo;
             _roleRepo = roleRepo;
             _candidateRepo = candidateRepo;
             _jwtService = jwtService;
+            _emailService = emailService;
         }
 
 
@@ -152,6 +155,11 @@ namespace Recruitment.Application.Services
                 await _candidateRepo.AddAsync(candidate);
             }
 
+
+            await _emailService.SendEmailAsync(
+                user.Email,
+                "Welcome to TalentAI",
+                EmailTemplateBuilder.Welcome(user.FullName));
 
 
 

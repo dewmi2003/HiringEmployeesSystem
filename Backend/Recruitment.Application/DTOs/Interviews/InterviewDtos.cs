@@ -26,7 +26,8 @@ namespace Recruitment.Application.DTOs.Interviews
         DateTime InterviewEndDate,
         string? Location,
         string InterviewStatus,
-        string CalendarResult
+        string CalendarResult,
+        string EmailResult
     );
 
     public record CreateEvaluationDto(

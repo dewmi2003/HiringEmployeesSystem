@@ -101,6 +101,21 @@ namespace Recruitment.Application.Services
 
             await _applicationRepository.AddAsync(application);
 
+            var savedApplication = await _applicationRepository.GetByIdAsync(application.Id);
+            var candidateEmail = savedApplication?.Candidate?.User?.Email;
+
+            if (!string.IsNullOrWhiteSpace(candidateEmail))
+            {
+                await _emailService.SendEmailAsync(
+                    candidateEmail,
+                    $"Application received - {job.Title}",
+                    EmailTemplateBuilder.ApplicationSubmitted(
+                        BuildCandidateName(savedApplication),
+                        job.Title,
+                        savedApplication?.Job?.Company?.Name,
+                        application.AppliedDate));
+            }
+
             return application.Id;
         }
 
@@ -140,17 +155,27 @@ namespace Recruitment.Application.Services
             var candidateEmail = application.Candidate?.User?.Email;
             if (!string.IsNullOrWhiteSpace(candidateEmail))
             {
-                var body = $"""
-                    <p>Hello {application.Candidate?.FirstName ?? "Candidate"},</p>
-                    <p>Your application for <strong>{statusJobTitle}</strong> has been updated.</p>
-                    <p>New status: <strong>{application.Status}</strong></p>
-                    <p>Thank you,<br/>Recruitment Team</p>
-                    """;
+                var candidateName = BuildCandidateName(application);
+                var isOffer = string.Equals(
+                    application.Status,
+                    "OfferExtended",
+                    StringComparison.OrdinalIgnoreCase);
 
                 await _emailService.SendEmailAsync(
                     candidateEmail,
-                    $"Application status updated: {application.Status}",
-                    body);
+                    isOffer
+                        ? $"Job offer - {statusJobTitle}"
+                        : $"Application status updated - {application.Status}",
+                    isOffer
+                        ? EmailTemplateBuilder.OfferExtended(
+                            candidateName,
+                            statusJobTitle,
+                            application.Job?.Company?.Name,
+                            null)
+                        : EmailTemplateBuilder.ApplicationStatusUpdated(
+                            candidateName,
+                            statusJobTitle,
+                            application.Status));
             }
         }
 
@@ -166,6 +191,22 @@ namespace Recruitment.Application.Services
         public async Task DeleteApplicationAsync(Guid id)
         {
             await _applicationRepository.DeleteAsync(id);
+        }
+
+        private static string BuildCandidateName(ApplicationEntity? application)
+        {
+            if (application?.Candidate == null)
+            {
+                return "Candidate";
+            }
+
+            var fullName =
+                $"{application.Candidate.FirstName} {application.Candidate.LastName}"
+                .Trim();
+
+            return string.IsNullOrWhiteSpace(fullName)
+                ? "Candidate"
+                : fullName;
         }
     }
 }
