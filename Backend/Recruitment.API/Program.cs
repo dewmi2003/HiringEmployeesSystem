@@ -146,7 +146,13 @@ errors=context.ModelState
 var conn = builder.Configuration.GetConnectionString("DefaultConnection")
            ?? builder.Configuration["ConnectionStrings:DefaultConnection"]
            ?? "Server=(localdb)\\mssqllocaldb;Database=RecruitmentDb;Trusted_Connection=True;MultipleActiveResultSets=true";
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(conn));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        conn,
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 6,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null)));
 
 // Application services
 builder.Services.AddScoped<IJwtService, JwtService>();
