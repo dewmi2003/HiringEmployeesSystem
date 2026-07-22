@@ -1,3 +1,4 @@
+using Recruitment.Application.DTOs;
 using Recruitment.Application.DTOs.Interviews;
 using Recruitment.Application.Interfaces.Repositories;
 using Recruitment.Application.Interfaces.Services;
@@ -10,15 +11,18 @@ namespace Recruitment.Application.Services
         private readonly IInterviewRepository _interviewRepository;
         private readonly IApplicationRepository _applicationRepository;
         private readonly ICalendarService _calendarService;
+        private readonly INotificationService _notificationService;
 
         public InterviewService(
             IInterviewRepository interviewRepository,
             IApplicationRepository applicationRepository,
-            ICalendarService calendarService)
+            ICalendarService calendarService,
+            INotificationService notificationService)
         {
             _interviewRepository = interviewRepository;
             _applicationRepository = applicationRepository;
             _calendarService = calendarService;
+            _notificationService = notificationService;
         }
 
         public async Task<ScheduledInterviewDto> ScheduleInterviewAsync(CreateInterviewDto dto)
@@ -57,6 +61,18 @@ namespace Recruitment.Application.Services
             };
 
             await _interviewRepository.AddAsync(interview);
+
+            var candidateUserId = application.Candidate?.UserId;
+            if (candidateUserId.HasValue && candidateUserId.Value != Guid.Empty)
+            {
+                await _notificationService.CreateAsync(new NotificationDto
+                {
+                    UserId = candidateUserId.Value,
+                    Title = "Interview scheduled",
+                    Message = $"Your interview for {jobTitle} is scheduled for {start:u}.",
+                    Type = "Interview"
+                });
+            }
 
             return new ScheduledInterviewDto(
                 interview.Id,

@@ -1,4 +1,5 @@
 using ApplicationEntity = Recruitment.Domain.Entities.Application;
+using Recruitment.Application.DTOs;
 using Recruitment.Application.DTOs.Applications;
 using Recruitment.Application.Interfaces.Repositories;
 using Recruitment.Application.Interfaces.Services;
@@ -10,16 +11,19 @@ namespace Recruitment.Application.Services
         private readonly IApplicationRepository _applicationRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
 
 
         public ApplicationService(
             IApplicationRepository applicationRepository,
             IJobRepository jobRepository,
-            IEmailService emailService)
+            IEmailService emailService,
+            INotificationService notificationService)
         {
             _applicationRepository = applicationRepository;
             _jobRepository = jobRepository;
             _emailService = emailService;
+            _notificationService = notificationService;
         }
 
 
@@ -120,13 +124,25 @@ namespace Recruitment.Application.Services
 
             await _applicationRepository.UpdateAsync(application);
 
+            var candidateUserId = application.Candidate?.UserId;
+            var statusJobTitle = application.Job?.Title ?? "your job application";
+            if (candidateUserId.HasValue && candidateUserId.Value != Guid.Empty)
+            {
+                await _notificationService.CreateAsync(new NotificationDto
+                {
+                    UserId = candidateUserId.Value,
+                    Title = "Application status updated",
+                    Message = $"Your application for {statusJobTitle} is now {application.Status}.",
+                    Type = "Application"
+                });
+            }
+
             var candidateEmail = application.Candidate?.User?.Email;
             if (!string.IsNullOrWhiteSpace(candidateEmail))
             {
-                var jobTitle = application.Job?.Title ?? "your job application";
                 var body = $"""
                     <p>Hello {application.Candidate?.FirstName ?? "Candidate"},</p>
-                    <p>Your application for <strong>{jobTitle}</strong> has been updated.</p>
+                    <p>Your application for <strong>{statusJobTitle}</strong> has been updated.</p>
                     <p>New status: <strong>{application.Status}</strong></p>
                     <p>Thank you,<br/>Recruitment Team</p>
                     """;
