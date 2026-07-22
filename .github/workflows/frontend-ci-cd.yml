@@ -29,12 +29,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: '${{ env.APP_LOCATION }}/package-lock.json'
 
       - name: Install dependencies
         working-directory: ${{ env.APP_LOCATION }}
-        run: npm ci
+        run: npm install
 
       - name: Run linter (if configured)
         working-directory: ${{ env.APP_LOCATION }}
