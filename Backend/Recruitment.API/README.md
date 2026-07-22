@@ -1,7 +1,9 @@
 Recruitment.API - Local run instructions
 
 Configuration
-- Update Backend/Recruitment.API/appsettings.json or set environment variables for connection string and JWT secrets.
+- Do not put real passwords in appsettings.json.
+- For local private settings, create Backend/Recruitment.API/appsettings.Local.json using appsettings.Local.example.json as the shape.
+- For Azure App Service, set these values in Configuration > Application settings / Connection strings.
   - ConnectionStrings:DefaultConnection
   - Jwt__Key, Jwt__Issuer, Jwt__Audience
   - AI:Provider = "azure" or "openai"

@@ -24,6 +24,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+    .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 // Configuration & Services
 builder.Services.AddControllers();
@@ -264,6 +267,19 @@ app.UseAuthorization();
 app.MapHealthChecks("/health");
 app.MapGet("/", () => "Recruitment API");
 app.MapControllers();
+
+if (args.Contains("--migrate-only", StringComparer.OrdinalIgnoreCase)
+    || builder.Configuration.GetValue<bool>("ApplyMigrationsOnStartup"))
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+
+    if (args.Contains("--migrate-only", StringComparer.OrdinalIgnoreCase))
+    {
+        return;
+    }
+}
 
 // Seed database (roles, admin) - safe to run multiple times
 try
