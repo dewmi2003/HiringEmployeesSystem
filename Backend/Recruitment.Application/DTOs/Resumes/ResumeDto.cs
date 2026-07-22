@@ -18,6 +18,10 @@ namespace Recruitment.Application.DTO.Resumes
 
         public string FileType { get; set; } = string.Empty;
 
+        public string ParsedText { get; set; } = string.Empty;
+
+        public int AiScore { get; set; }
+
         public int Version { get; set; }
 
         public bool IsActive { get; set; }

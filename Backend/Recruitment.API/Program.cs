@@ -178,8 +178,9 @@ builder.Services.AddScoped<ICandidateService, CandidateService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IInterviewService, InterviewService>();
 builder.Services.AddScoped<IResumeAiService, ResumeAiService>();
+builder.Services.AddScoped<IAiFeatureService, AiFeatureService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IResumeService, Recruitment.Application.Services.ResumeService>();
+builder.Services.AddScoped<IResumeService, Recruitment.Infrastructure.Services.ResumeService>();
 
 // Infrastructure services (email/blob)
 if (useAzure)

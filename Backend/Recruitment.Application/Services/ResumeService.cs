@@ -145,7 +145,7 @@ namespace Recruitment.Application.Services
             return (await _resumeRepository.GetAllAsync())
                 .Where(x =>
                     x.FileName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    x.ParsedText.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    (x.ParsedText ?? string.Empty).Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
                 .Select(MapToDto);
         }
 
@@ -185,6 +185,8 @@ namespace Recruitment.Application.Services
                 FilePath = resume.FilePath,
                 FileType = resume.FileType,
                 FileSize = resume.FileSize,
+                ParsedText = resume.ParsedText,
+                AiScore = resume.AiScore,
                 UploadedDate = resume.UploadedDate == default
                     ? resume.CreatedAt
                     : resume.UploadedDate,
