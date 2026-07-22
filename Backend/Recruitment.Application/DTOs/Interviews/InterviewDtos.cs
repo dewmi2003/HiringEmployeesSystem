@@ -16,6 +16,19 @@ namespace Recruitment.Application.DTOs.Interviews
         string InterviewStatus
     );
 
+    public record ScheduledInterviewDto(
+        Guid InterviewId,
+        Guid ApplicationId,
+        string CandidateFullName,
+        string CandidateEmail,
+        string JobTitle,
+        DateTime InterviewDate,
+        DateTime InterviewEndDate,
+        string? Location,
+        string InterviewStatus,
+        string CalendarResult
+    );
+
     public record CreateEvaluationDto(
         Guid InterviewId,
         Guid RecruiterId,
