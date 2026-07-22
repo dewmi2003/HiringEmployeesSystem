@@ -6,15 +6,18 @@ on:
     paths:
       - 'Backend/**'
       - '.github/workflows/backend-ci-cd.yml'
+
   pull_request:
     branches: [main, development]
     paths:
       - 'Backend/**'
 
+  workflow_dispatch:
+
 env:
   DOTNET_VERSION: '8.0.x'
-  SOLUTION_PATH: 'Backend/RecruitmentManagementSystem.sln'
   API_PROJECT_PATH: 'Backend/Recruitment.API/Recruitment.API.csproj'
+  TEST_PROJECT_PATH: 'Backend/Recruitment.UnitTests/Recruitment.UnitTests.csproj'
   PUBLISH_OUTPUT: './publish'
 
 jobs:
@@ -38,19 +41,24 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.API_PROJECT_PATH }}
 
-      - name: Build solution
+      - name: Build API
         run: dotnet build ${{ env.API_PROJECT_PATH }} --no-restore --configuration Release
 
       - name: Run unit tests
+        shell: bash
         run: |
-          if [ -d "Backend/Recruitment.Tests" ]; then
-            dotnet test Backend/Recruitment.Tests --no-build --verbosity normal
+          if [ -f "${{ env.TEST_PROJECT_PATH }}" ]; then
+            dotnet test "${{ env.TEST_PROJECT_PATH }}" --configuration Release --verbosity normal
           else
-            echo "No test project found, skipping tests."
+            echo "No unit test project found, skipping tests."
           fi
 
       - name: Publish application
-        run: dotnet publish ${{ env.API_PROJECT_PATH }} --no-build --configuration Release --output ${{ env.PUBLISH_OUTPUT }}
+        run: >
+          dotnet publish ${{ env.API_PROJECT_PATH }}
+          --no-build
+          --configuration Release
+          --output ${{ env.PUBLISH_OUTPUT }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
