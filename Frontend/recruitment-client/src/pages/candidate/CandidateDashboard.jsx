@@ -1,53 +1,84 @@
+import { useEffect, useState } from "react";
 import ScoreCard from "../../components/ScoreCard";
+import { getMyCandidateProfile } from "../../services/candidateService";
+import { getMyApplications } from "../../services/applicationService";
+import { analyzeStoredResume } from "../../services/aiService";
+
 function CandidateDashboard() {
-
-
-  const candidate = {
+  const [candidate, setCandidate] = useState({
     name: "Sineli",
     role: "Frontend Developer",
-    skills: [
-      "React",
-      "Java",
-      "Spring Boot",
-      "SQL"
-    ],
+    skills: ["React", "Java", "Spring Boot", "SQL"],
     resumeScore: 87,
     matchScore: 92
-  };
+  });
 
-  const applications = [
-  {
-    company: "TechNova Solutions",
-    role: "Frontend Developer",
-    status: "Interview Scheduled"
-  },
-  {
-    company: "CloudSphere",
-    role: "React Developer",
-    status: "Under Review"
-  },
-  {
-    company: "AI Labs",
-    role: "Software Engineer",
-    status: "Applied"
-  }
-];
+  const [applications, setApplications] = useState([
+    { company: "TechNova Solutions", role: "Frontend Developer", status: "Interview Scheduled" },
+    { company: "CloudSphere", role: "React Developer", status: "Under Review" },
+    { company: "AI Labs", role: "Software Engineer", status: "Applied" }
+  ]);
 
+  const [insights, setInsights] = useState([
+    "Your React skills match 85% of frontend jobs.",
+    "Adding cloud projects can improve your ranking.",
+    "Your resume has strong technical keywords."
+  ]);
 
-const insights = [
-  "Your React skills match 85% of frontend jobs.",
-  "Adding cloud projects can improve your ranking.",
-  "Your resume has strong technical keywords."
-];
+  useEffect(() => {
+    getMyCandidateProfile()
+      .then((profile) => {
+        const fullName = [profile.firstName, profile.lastName].filter(Boolean).join(" ").trim();
+        setCandidate((current) => ({
+          ...current,
+          name: fullName || profile.fullName || current.name,
+          role: profile.currentRole || profile.title || current.role,
+          skills: profile.skills || current.skills,
+          resumeScore: profile.resumeScore ?? profile.aiScore ?? current.resumeScore,
+          matchScore: profile.matchScore ?? current.matchScore
+        }));
 
+        if (profile.resumeId) {
+          return analyzeStoredResume(profile.resumeId)
+            .then((analysis) => {
+              setCandidate((current) => ({
+                ...current,
+                resumeScore: analysis.atsScore ?? current.resumeScore,
+                matchScore: analysis.matchScore ?? current.matchScore
+              }));
+
+              const suggestionList = [
+                analysis.summary,
+                ...(analysis.improvementSuggestions || []),
+                ...(analysis.atsIssues || [])
+              ].filter(Boolean);
+
+              if (suggestionList.length > 0) {
+                setInsights(suggestionList.slice(0, 3));
+              }
+            });
+        }
+      })
+      .catch(() => {});
+
+    getMyApplications()
+      .then((items) => {
+        const mapped = (items || []).map((item) => ({
+          company: item.companyName || item.jobTitle || "Company",
+          role: item.jobTitle || "Role",
+          status: item.status || "Applied"
+        }));
+
+        if (mapped.length > 0) {
+          setApplications(mapped);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div>
-
-
-      {/* Welcome */}
       <div className="mb-8">
-
         <h1
           className="
           text-4xl
@@ -55,19 +86,13 @@ const insights = [
           text-teal-900
           "
         >
-          Welcome back, {candidate.name} 
+          Welcome back, {candidate.name}
         </h1>
-
 
         <p className="text-gray-500 mt-2">
           Track your career progress and AI-powered job opportunities.
         </p>
-
       </div>
-
-
-
-      {/* Top Cards */}
 
       <div
         className="
@@ -77,10 +102,6 @@ const insights = [
         gap-6
         "
       >
-
-
-        {/* Profile */}
-
         <div
           className="
           bg-white
@@ -91,27 +112,21 @@ const insights = [
           border-gray-100
           "
         >
-
           <h2 className="text-lg font-semibold text-teal-800">
             Profile
           </h2>
-
 
           <p className="mt-4 text-gray-700">
             Role: {candidate.role}
           </p>
 
-
           <div className="mt-4">
-
             <p className="text-sm text-gray-500">
               Skills
             </p>
 
-
             <div className="flex flex-wrap gap-2 mt-2">
-
-              {candidate.skills.map((skill)=>(
+              {candidate.skills.map((skill) => (
                 <span
                   key={skill}
                   className="
@@ -126,27 +141,15 @@ const insights = [
                   {skill}
                 </span>
               ))}
-
             </div>
-
           </div>
-
-
         </div>
 
-
-
-        {/* Resume Score */}
-
         <ScoreCard
-  title="AI Resume Score"
-  score={candidate.resumeScore}
-  description="Your resume strength based on AI analysis"
-/>
-
-
-
-        {/* Match Score */}
+          title="AI Resume Score"
+          score={candidate.resumeScore}
+          description="Your resume strength based on AI analysis"
+        />
 
         <div
           className="
@@ -158,11 +161,9 @@ const insights = [
           border-gray-100
           "
         >
-
           <h2 className="text-lg font-semibold text-teal-800">
             Job Match
           </h2>
-
 
           <p
             className="
@@ -175,20 +176,11 @@ const insights = [
             {candidate.matchScore}%
           </p>
 
-
           <p className="text-gray-500 mt-3">
             AI matched opportunities
           </p>
-
-
         </div>
-
-
       </div>
-
-
-
-      {/* Recommendations */}
 
       <div
         className="
@@ -201,7 +193,6 @@ const insights = [
         p-8
         "
       >
-
         <h2
           className="
           text-2xl
@@ -209,230 +200,72 @@ const insights = [
           text-teal-900
           "
         >
-          AI Career Recommendations 
+          AI Career Recommendations
         </h2>
 
-
         <ul className="mt-5 space-y-3 text-gray-700">
-
-          <li>
-            ✓ Improve Python skills
-          </li>
-
-          <li>
-            ✓ Add more AI projects to your portfolio
-          </li>
-
-          <li>
-            ✓ Complete cloud certification
-          </li>
-
+          {insights.map((insight, index) => (
+            <li key={index}>{insight}</li>
+          ))}
         </ul>
-
-
       </div>
 
-{/* Recent Applications */}
-
-<div
-  className="
-  mt-8
-  bg-white
-  rounded-3xl
-  shadow-sm
-  border
-  border-gray-100
-  p-8
-  "
->
-
-  <h2 className="text-2xl font-semibold text-teal-900 mb-6">
-    Recent Applications
-  </h2>
-
-
-  <div className="space-y-4">
-
-    {applications.map((application, index) => (
-
       <div
-        key={index}
         className="
-        flex
-        justify-between
-        items-center
-        bg-gray-50
-        rounded-2xl
-        p-5
+        mt-8
+        bg-white
+        rounded-3xl
+        shadow-sm
+        border
+        border-gray-100
+        p-8
         "
       >
+        <h2 className="text-2xl font-semibold text-teal-900 mb-6">
+          Recent Applications
+        </h2>
 
-        <div>
+        <div className="space-y-4">
+          {applications.map((application, index) => (
+            <div
+              key={index}
+              className="
+              flex
+              justify-between
+              items-center
+              bg-gray-50
+              rounded-2xl
+              p-5
+              "
+            >
+              <div>
+                <h3 className="font-semibold text-gray-800">
+                  {application.role}
+                </h3>
 
-          <h3 className="font-semibold text-gray-800">
-            {application.role}
-          </h3>
+                <p className="text-sm text-gray-500">
+                  {application.company}
+                </p>
+              </div>
 
-          <p className="text-sm text-gray-500">
-            {application.company}
-          </p>
-
+              <span
+                className="
+                bg-teal-100
+                text-teal-700
+                px-4
+                py-2
+                rounded-full
+                text-sm
+                "
+              >
+                {application.status}
+              </span>
+            </div>
+          ))}
         </div>
-
-
-        <span
-          className="
-          bg-teal-100
-          text-teal-700
-          px-4
-          py-2
-          rounded-full
-          text-sm
-          "
-        >
-          {application.status}
-        </span>
-
-
       </div>
-
-    ))}
-
-  </div>
-
-</div>
-
-
-
-{/* AI Career Insights */}
-
-<div
-  className="
-  mt-8
-  bg-gradient-to-r
-  from-teal-900
-  to-teal-700
-  text-white
-  rounded-3xl
-  p-8
-  shadow-lg
-  "
->
-
-  <h2 className="text-2xl font-semibold">
-    AI Career Insights 
-  </h2>
-
-
-  <div className="mt-5 space-y-3">
-
-    {insights.map((insight, index) => (
-
-      <div
-        key={index}
-        className="
-        bg-white/10
-        rounded-xl
-        p-4
-        "
-      >
-        {insight}
-      </div>
-
-    ))}
-
-  </div>
-
-</div>
     </div>
-    
   );
-  
-  {/* Application Tracking */}
-
-<div
-  className="
-  mt-8
-  bg-white
-  rounded-3xl
-  shadow-sm
-  border
-  border-gray-100
-  p-8
-  "
->
-
-<h2
-className="
-text-2xl
-font-semibold
-text-teal-900
-mb-6
-"
->
-Recent Applications
-</h2>
-
-
-<div className="space-y-4">
-
-
-{
-applications.map((app,index)=>(
-
-<div
-key={index}
-className="
-flex
-justify-between
-items-center
-bg-gray-50
-rounded-2xl
-p-5
-"
->
-
-
-<div>
-
-<h3 className="font-semibold text-gray-800">
-{app.role}
-</h3>
-
-<p className="text-sm text-gray-500">
-{app.company}
-</p>
-
-</div>
-
-
-<span
-className="
-bg-teal-100
-text-teal-700
-px-4
-py-2
-rounded-full
-text-sm
-font-medium
-"
->
-{app.status}
-</span>
-
-
-</div>
-
-))
-
 }
-
-
-</div>
-
-
-</div>
-}
-
 
 export default CandidateDashboard;
