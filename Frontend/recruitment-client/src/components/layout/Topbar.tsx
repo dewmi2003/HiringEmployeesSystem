@@ -50,6 +50,11 @@ export default function Topbar({
     }
   };
 
+  const handleSignOut = () => {
+    signOut();
+    navigate("/login", { replace: true });
+  };
+
   return (
     <header className="topbar">
       <div className="topbar-left">
@@ -127,7 +132,7 @@ export default function Topbar({
           type="button"
           aria-label="Sign out"
           title="Sign out"
-          onClick={signOut}
+          onClick={handleSignOut}
         >
           <LogOut size={19} aria-hidden="true" />
         </button>

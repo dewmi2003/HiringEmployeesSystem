@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LockKeyhole, Mail } from "lucide-react";
@@ -27,7 +27,7 @@ interface LocationState {
 
 export default function LoginPage() {
   const [serverError, setServerError] = useState("");
-  const { signIn, isAuthenticated, user } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -38,12 +38,6 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      navigate(getRoleHome(user.role), { replace: true });
-    }
-  }, [isAuthenticated, navigate, user]);
 
   const onSubmit = handleSubmit(async (values) => {
     setServerError("");
