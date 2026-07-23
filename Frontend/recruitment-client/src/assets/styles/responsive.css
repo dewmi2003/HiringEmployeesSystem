@@ -1,0 +1,21 @@
+@media (max-width: 1199px) {
+  :root {
+    --sidebar-width: 236px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --topbar-height: 62px;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
