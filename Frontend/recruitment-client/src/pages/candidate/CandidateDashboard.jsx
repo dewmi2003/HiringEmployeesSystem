@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import ScoreCard from "../../components/ScoreCard";
 import { getMyCandidateProfile } from "../../services/candidateService";
 import { getMyApplications } from "../../services/applicationService";
@@ -79,13 +80,7 @@ function CandidateDashboard() {
   return (
     <div>
       <div className="mb-8">
-        <h1
-          className="
-          text-4xl
-          font-bold
-          text-teal-900
-          "
-        >
+        <h1 className="text-4xl font-bold text-teal-900">
           Welcome back, {candidate.name}
         </h1>
 
@@ -94,24 +89,20 @@ function CandidateDashboard() {
         </p>
       </div>
 
-      <div
-        className="
-        grid
-        grid-cols-1
-        md:grid-cols-3
-        gap-6
-        "
-      >
-        <div
-          className="
-          bg-white
-          rounded-3xl
-          shadow-sm
-          p-6
-          border
-          border-gray-100
-          "
-        >
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link to="/candidate/profile" className="bg-teal-700 text-white px-4 py-2 rounded-xl">
+          Edit Profile
+        </Link>
+        <Link to="/candidate/resume" className="bg-teal-100 text-teal-800 px-4 py-2 rounded-xl">
+          Upload Resume
+        </Link>
+        <Link to="/ai/resume-analysis" className="bg-gray-100 text-gray-800 px-4 py-2 rounded-xl">
+          Run AI Analysis
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div className="bg-white rounded-3xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-lg font-semibold text-teal-800">
             Profile
           </h2>
@@ -129,14 +120,7 @@ function CandidateDashboard() {
               {candidate.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="
-                  bg-teal-50
-                  text-teal-700
-                  px-3
-                  py-1
-                  rounded-full
-                  text-sm
-                  "
+                  className="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-sm"
                 >
                   {skill}
                 </span>
@@ -151,28 +135,12 @@ function CandidateDashboard() {
           description="Your resume strength based on AI analysis"
         />
 
-        <div
-          className="
-          bg-white
-          rounded-3xl
-          shadow-sm
-          p-6
-          border
-          border-gray-100
-          "
-        >
+        <div className="bg-white rounded-3xl shadow-sm p-6 border border-gray-100">
           <h2 className="text-lg font-semibold text-teal-800">
             Job Match
           </h2>
 
-          <p
-            className="
-            text-6xl
-            font-bold
-            text-teal-700
-            mt-5
-            "
-          >
+          <p className="text-6xl font-bold text-teal-700 mt-5">
             {candidate.matchScore}%
           </p>
 
@@ -182,24 +150,8 @@ function CandidateDashboard() {
         </div>
       </div>
 
-      <div
-        className="
-        mt-8
-        bg-white
-        rounded-3xl
-        shadow-sm
-        border
-        border-gray-100
-        p-8
-        "
-      >
-        <h2
-          className="
-          text-2xl
-          font-semibold
-          text-teal-900
-          "
-        >
+      <div className="mt-8 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+        <h2 className="text-2xl font-semibold text-teal-900">
           AI Career Recommendations
         </h2>
 
@@ -210,17 +162,7 @@ function CandidateDashboard() {
         </ul>
       </div>
 
-      <div
-        className="
-        mt-8
-        bg-white
-        rounded-3xl
-        shadow-sm
-        border
-        border-gray-100
-        p-8
-        "
-      >
+      <div className="mt-8 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
         <h2 className="text-2xl font-semibold text-teal-900 mb-6">
           Recent Applications
         </h2>
@@ -229,14 +171,7 @@ function CandidateDashboard() {
           {applications.map((application, index) => (
             <div
               key={index}
-              className="
-              flex
-              justify-between
-              items-center
-              bg-gray-50
-              rounded-2xl
-              p-5
-              "
+              className="flex justify-between items-center bg-gray-50 rounded-2xl p-5"
             >
               <div>
                 <h3 className="font-semibold text-gray-800">
@@ -248,20 +183,20 @@ function CandidateDashboard() {
                 </p>
               </div>
 
-              <span
-                className="
-                bg-teal-100
-                text-teal-700
-                px-4
-                py-2
-                rounded-full
-                text-sm
-                "
-              >
+              <span className="bg-teal-100 text-teal-700 px-4 py-2 rounded-full text-sm">
                 {application.status}
               </span>
             </div>
           ))}
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to="/candidate/applications" className="bg-teal-700 text-white px-4 py-2 rounded-xl">
+            View All Applications
+          </Link>
+          <Link to="/jobs" className="bg-gray-100 text-gray-800 px-4 py-2 rounded-xl">
+            Browse Jobs
+          </Link>
         </div>
       </div>
     </div>

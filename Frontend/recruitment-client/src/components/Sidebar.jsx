@@ -1,4 +1,16 @@
+import { Link, useLocation } from "react-router-dom";
+
 function Sidebar() {
+  const location = useLocation();
+  const navItems = [
+    { to: "/candidate/dashboard", label: "Dashboard" },
+    { to: "/candidate/profile", label: "Profile" },
+    { to: "/candidate/resume", label: "Resume" },
+    { to: "/candidate/skills", label: "Skills" },
+    { to: "/jobs", label: "Jobs" },
+    { to: "/candidate/applications", label: "Applications" }
+  ];
+
   return (
     <aside
       className="
@@ -12,8 +24,6 @@ function Sidebar() {
       shadow-xl
       "
     >
-
-      {/* Brand */}
       <div className="mb-10">
         <h1 className="text-2xl font-bold tracking-wide">
           TalentAI
@@ -24,75 +34,30 @@ function Sidebar() {
         </p>
       </div>
 
-
-      {/* Navigation */}
       <nav className="space-y-3">
+        {navItems.map((item) => {
+          const active = location.pathname === item.to;
 
-
-        <button
-          className="
-          w-full
-          text-left
-          px-4
-          py-3
-          rounded-xl
-          bg-teal-600
-          hover:bg-teal-500
-          transition
-          "
-        >
-          Dashboard
-        </button>
-
-
-        <button
-          className="
-          w-full
-          text-left
-          px-4
-          py-3
-          rounded-xl
-          hover:bg-teal-600
-          transition
-          "
-        >
-          Profile
-        </button>
-
-
-        <button
-          className="
-          w-full
-          text-left
-          px-4
-          py-3
-          rounded-xl
-          hover:bg-teal-600
-          transition
-          "
-        >
-          Jobs
-        </button>
-
-
-        <button
-          className="
-          w-full
-          text-left
-          px-4
-          py-3
-          rounded-xl
-          hover:bg-teal-600
-          transition
-          "
-        >
-          Applications
-        </button>
-
-
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`
+                block
+                w-full
+                text-left
+                px-4
+                py-3
+                rounded-xl
+                transition
+                ${active ? "bg-teal-600" : "hover:bg-teal-600"}
+              `}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
-
-
     </aside>
   );
 }

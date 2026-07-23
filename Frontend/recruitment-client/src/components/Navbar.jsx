@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
     <nav
@@ -13,8 +15,6 @@ function Navbar() {
       shadow-sm
       "
     >
-
-      {/* Title */}
       <div>
         <h2 className="text-2xl font-bold text-teal-900">
           AI Recruitment Platform
@@ -25,13 +25,9 @@ function Navbar() {
         </p>
       </div>
 
-
-      {/* Right Side */}
       <div className="flex items-center gap-5">
-
-
-        {/* Notification */}
-        <button
+        <Link
+          to="/candidate/applications"
           className="
           w-10
           h-10
@@ -40,13 +36,14 @@ function Navbar() {
           text-teal-700
           hover:bg-teal-100
           transition
+          flex
+          items-center
+          justify-center
           "
         >
           🔔
-        </button>
+        </Link>
 
-
-        {/* Profile */}
         <div
           className="
           flex
@@ -54,8 +51,8 @@ function Navbar() {
           gap-3
           "
         >
-
-          <div
+          <Link
+            to="/candidate/profile"
             className="
             w-11
             h-11
@@ -69,25 +66,19 @@ function Navbar() {
             "
           >
             S
-          </div>
-
+          </Link>
 
           <div>
-            <p className="font-semibold text-gray-800">
+            <Link to="/candidate/profile" className="font-semibold text-gray-800">
               Sineli
-            </p>
+            </Link>
 
             <p className="text-sm text-gray-500">
               Candidate
             </p>
           </div>
-
         </div>
-
-
       </div>
-
-
     </nav>
   );
 }
