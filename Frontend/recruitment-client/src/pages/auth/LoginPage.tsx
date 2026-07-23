@@ -11,7 +11,11 @@ import { getErrorMessage } from "../../services/apiClient";
 import { getRoleHome, routes } from "../../utils/routePaths";
 
 const loginSchema = z.object({
-  email: z.string().trim().email("Enter a valid email address."),
+  email: z
+    .string()
+    .trim()
+    .min(1, "Email is required.")
+    .regex(/^[^\s@]+@[^\s@]+$/, "Enter a valid email address."),
   password: z.string().min(1, "Password is required."),
 });
 

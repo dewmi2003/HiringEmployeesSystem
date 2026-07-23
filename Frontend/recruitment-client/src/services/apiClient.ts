@@ -53,7 +53,12 @@ apiClient.interceptors.response.use(
   (error: AxiosError) => {
     const status = error.response?.status;
     const data = error.response?.data as
-      | { message?: string; title?: string; errors?: unknown }
+      | {
+          message?: string;
+          title?: string;
+          error?: string;
+          errors?: unknown;
+        }
       | string
       | undefined;
 
@@ -72,7 +77,16 @@ apiClient.interceptors.response.use(
     } else if (typeof data === "string" && data.trim()) {
       message = data;
     } else if (data && typeof data === "object") {
-      message = data.message || data.title || message;
+      const validationErrors = Array.isArray(data.errors)
+        ? data.errors.filter((item): item is string => typeof item === "string")
+        : [];
+
+      message =
+        data.message ||
+        data.error ||
+        data.title ||
+        validationErrors.join(" ") ||
+        message;
     }
 
     return Promise.reject(new ApiError(message, status, data));
