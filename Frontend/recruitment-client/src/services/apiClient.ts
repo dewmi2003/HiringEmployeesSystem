@@ -10,9 +10,19 @@ export const AUTH_UNAUTHORIZED_EVENT = "talentai:unauthorized";
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 
-export const apiBaseUrl = configuredBaseUrl
-  ? configuredBaseUrl.replace(/\/+$/, "")
-  : "/api";
+function normalizeApiBaseUrl(value?: string): string {
+  if (!value) return "/api";
+
+  const normalized = value.replace(/\/+$/, "");
+
+  if (/^https?:\/\//i.test(normalized) || normalized.startsWith("/")) {
+    return normalized;
+  }
+
+  return `https://${normalized}`;
+}
+
+export const apiBaseUrl = normalizeApiBaseUrl(configuredBaseUrl);
 
 export class ApiError extends Error {
   status?: number;
