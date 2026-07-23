@@ -1,79 +1,83 @@
-import { FiSearch, FiBell, FiUser } from "react-icons/fi";
-
 function Navbar() {
   return (
-    <nav className="h-20 bg-white shadow-sm flex items-center justify-between px-8">
+    <nav
+      className="
+      h-20
+      bg-white
+      border-b
+      border-gray-100
+      flex
+      items-center
+      justify-between
+      px-8
+      shadow-sm
+      "
+    >
 
-      {/* Brand */}
+      {/* Title */}
       <div>
-        <h1 className="text-2xl font-bold text-[#0F4C5C]">
-          Hire<span className="text-[#D4AF37]">AI</span>
-        </h1>
+        <h2 className="text-2xl font-bold text-teal-900">
+          AI Recruitment Platform
+        </h2>
 
-        <p className="text-xs text-gray-500">
-          Career Intelligence Platform
+        <p className="text-sm text-gray-500">
+          Intelligent Hiring Dashboard
         </p>
       </div>
 
 
-      {/* Search */}
-      <div className="flex items-center bg-gray-100 rounded-xl px-4 py-2 w-96">
-
-        <FiSearch className="text-gray-500 mr-3" />
-
-        <input
-          type="text"
-          placeholder="Search opportunities..."
-          className="bg-transparent outline-none w-full text-sm"
-        />
-
-      </div>
-
-
-      {/* Right Section */}
-      <div className="flex items-center gap-6">
+      {/* Right Side */}
+      <div className="flex items-center gap-5">
 
 
         {/* Notification */}
-        <button className="relative text-[#0F4C5C]">
-
-          <FiBell size={22}/>
-
-          <span className="
-            absolute 
-            -top-1 
-            -right-1
-            bg-[#D4AF37]
-            w-3
-            h-3
-            rounded-full
-          ">
-          </span>
-
+        <button
+          className="
+          w-10
+          h-10
+          rounded-full
+          bg-teal-50
+          text-teal-700
+          hover:bg-teal-100
+          transition
+          "
+        >
+          🔔
         </button>
 
 
-
         {/* Profile */}
-        <div className="flex items-center gap-3">
+        <div
+          className="
+          flex
+          items-center
+          gap-3
+          "
+        >
 
-          <div className="
-            w-10 h-10 
-            rounded-full 
-            bg-[#0F4C5C]
-            flex items-center justify-center
+          <div
+            className="
+            w-11
+            h-11
+            rounded-full
+            bg-teal-700
             text-white
-          ">
-            <FiUser />
+            flex
+            items-center
+            justify-center
+            font-bold
+            "
+          >
+            S
           </div>
 
 
           <div>
-            <p className="text-sm font-semibold">
+            <p className="font-semibold text-gray-800">
               Sineli
             </p>
 
-            <p className="text-xs text-gray-500">
+            <p className="text-sm text-gray-500">
               Candidate
             </p>
           </div>
@@ -82,6 +86,7 @@ function Navbar() {
 
 
       </div>
+
 
     </nav>
   );

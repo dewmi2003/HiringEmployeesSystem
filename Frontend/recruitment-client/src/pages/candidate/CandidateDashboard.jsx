@@ -1,53 +1,185 @@
+import ScoreCard from "../../components/ScoreCard";
 function CandidateDashboard() {
+
+
+  const candidate = {
+    name: "Sineli",
+    role: "Frontend Developer",
+    skills: [
+      "React",
+      "Java",
+      "Spring Boot",
+      "SQL"
+    ],
+    resumeScore: 87,
+    matchScore: 92
+  };
+
+  const applications = [
+  {
+    company: "TechNova Solutions",
+    role: "Frontend Developer",
+    status: "Interview Scheduled"
+  },
+  {
+    company: "CloudSphere",
+    role: "React Developer",
+    status: "Under Review"
+  },
+  {
+    company: "AI Labs",
+    role: "Software Engineer",
+    status: "Applied"
+  }
+];
+
+
+const insights = [
+  "Your React skills match 85% of frontend jobs.",
+  "Adding cloud projects can improve your ranking.",
+  "Your resume has strong technical keywords."
+];
+
 
   return (
     <div>
 
-      <h1 className="text-3xl font-bold mb-6">
-        Candidate Dashboard
-      </h1>
+
+      {/* Welcome */}
+      <div className="mb-8">
+
+        <h1
+          className="
+          text-4xl
+          font-bold
+          text-teal-900
+          "
+        >
+          Welcome back, {candidate.name} 
+        </h1>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <p className="text-gray-500 mt-2">
+          Track your career progress and AI-powered job opportunities.
+        </p>
+
+      </div>
 
 
-        {/* Profile Card */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold">
+
+      {/* Top Cards */}
+
+      <div
+        className="
+        grid
+        grid-cols-1
+        md:grid-cols-3
+        gap-6
+        "
+      >
+
+
+        {/* Profile */}
+
+        <div
+          className="
+          bg-white
+          rounded-3xl
+          shadow-sm
+          p-6
+          border
+          border-gray-100
+          "
+        >
+
+          <h2 className="text-lg font-semibold text-teal-800">
             Profile
           </h2>
 
-          <p>Name: Test Candidate</p>
-          <p>Email: candidate@gmail.com</p>
-          <p>Skills: React, Java, SQL</p>
-        </div>
 
-
-        {/* ATS Score */}
-        <div className="bg-white p-6 rounded-xl shadow">
-
-          <h2 className="text-xl font-semibold">
-            AI Resume Score
-          </h2>
-
-          <p className="text-4xl font-bold mt-4">
-            85%
+          <p className="mt-4 text-gray-700">
+            Role: {candidate.role}
           </p>
 
+
+          <div className="mt-4">
+
+            <p className="text-sm text-gray-500">
+              Skills
+            </p>
+
+
+            <div className="flex flex-wrap gap-2 mt-2">
+
+              {candidate.skills.map((skill)=>(
+                <span
+                  key={skill}
+                  className="
+                  bg-teal-50
+                  text-teal-700
+                  px-3
+                  py-1
+                  rounded-full
+                  text-sm
+                  "
+                >
+                  {skill}
+                </span>
+              ))}
+
+            </div>
+
+          </div>
+
+
         </div>
+
+
+
+        {/* Resume Score */}
+
+        <ScoreCard
+  title="AI Resume Score"
+  score={candidate.resumeScore}
+  description="Your resume strength based on AI analysis"
+/>
 
 
 
         {/* Match Score */}
-        <div className="bg-white p-6 rounded-xl shadow">
 
-          <h2 className="text-xl font-semibold">
+        <div
+          className="
+          bg-white
+          rounded-3xl
+          shadow-sm
+          p-6
+          border
+          border-gray-100
+          "
+        >
+
+          <h2 className="text-lg font-semibold text-teal-800">
             Job Match
           </h2>
 
-          <p className="text-4xl font-bold mt-4">
-            92%
+
+          <p
+            className="
+            text-6xl
+            font-bold
+            text-teal-700
+            mt-5
+            "
+          >
+            {candidate.matchScore}%
           </p>
+
+
+          <p className="text-gray-500 mt-3">
+            AI matched opportunities
+          </p>
+
 
         </div>
 
@@ -55,31 +187,251 @@ function CandidateDashboard() {
       </div>
 
 
-      <div className="mt-8 bg-white p-6 rounded-xl shadow">
 
-        <h2 className="text-xl font-semibold mb-4">
-          AI Recommendations
+      {/* Recommendations */}
+
+      <div
+        className="
+        mt-8
+        bg-white
+        rounded-3xl
+        shadow-sm
+        border
+        border-gray-100
+        p-8
+        "
+      >
+
+        <h2
+          className="
+          text-2xl
+          font-semibold
+          text-teal-900
+          "
+        >
+          AI Career Recommendations 
         </h2>
 
-        <ul>
+
+        <ul className="mt-5 space-y-3 text-gray-700">
+
           <li>
-            Improve Python skills
+            ✓ Improve Python skills
           </li>
 
           <li>
-            Add more projects to resume
+            ✓ Add more AI projects to your portfolio
           </li>
 
           <li>
-            Complete cloud certification
+            ✓ Complete cloud certification
           </li>
+
         </ul>
+
 
       </div>
 
+{/* Recent Applications */}
 
+<div
+  className="
+  mt-8
+  bg-white
+  rounded-3xl
+  shadow-sm
+  border
+  border-gray-100
+  p-8
+  "
+>
+
+  <h2 className="text-2xl font-semibold text-teal-900 mb-6">
+    Recent Applications
+  </h2>
+
+
+  <div className="space-y-4">
+
+    {applications.map((application, index) => (
+
+      <div
+        key={index}
+        className="
+        flex
+        justify-between
+        items-center
+        bg-gray-50
+        rounded-2xl
+        p-5
+        "
+      >
+
+        <div>
+
+          <h3 className="font-semibold text-gray-800">
+            {application.role}
+          </h3>
+
+          <p className="text-sm text-gray-500">
+            {application.company}
+          </p>
+
+        </div>
+
+
+        <span
+          className="
+          bg-teal-100
+          text-teal-700
+          px-4
+          py-2
+          rounded-full
+          text-sm
+          "
+        >
+          {application.status}
+        </span>
+
+
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
+
+
+
+{/* AI Career Insights */}
+
+<div
+  className="
+  mt-8
+  bg-gradient-to-r
+  from-teal-900
+  to-teal-700
+  text-white
+  rounded-3xl
+  p-8
+  shadow-lg
+  "
+>
+
+  <h2 className="text-2xl font-semibold">
+    AI Career Insights 
+  </h2>
+
+
+  <div className="mt-5 space-y-3">
+
+    {insights.map((insight, index) => (
+
+      <div
+        key={index}
+        className="
+        bg-white/10
+        rounded-xl
+        p-4
+        "
+      >
+        {insight}
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
     </div>
+    
   );
+  
+  {/* Application Tracking */}
+
+<div
+  className="
+  mt-8
+  bg-white
+  rounded-3xl
+  shadow-sm
+  border
+  border-gray-100
+  p-8
+  "
+>
+
+<h2
+className="
+text-2xl
+font-semibold
+text-teal-900
+mb-6
+"
+>
+Recent Applications
+</h2>
+
+
+<div className="space-y-4">
+
+
+{
+applications.map((app,index)=>(
+
+<div
+key={index}
+className="
+flex
+justify-between
+items-center
+bg-gray-50
+rounded-2xl
+p-5
+"
+>
+
+
+<div>
+
+<h3 className="font-semibold text-gray-800">
+{app.role}
+</h3>
+
+<p className="text-sm text-gray-500">
+{app.company}
+</p>
+
+</div>
+
+
+<span
+className="
+bg-teal-100
+text-teal-700
+px-4
+py-2
+rounded-full
+text-sm
+font-medium
+"
+>
+{app.status}
+</span>
+
+
+</div>
+
+))
+
+}
+
+
+</div>
+
+
+</div>
 }
 
 
