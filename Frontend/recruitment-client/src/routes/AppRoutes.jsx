@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 
 // testing only
@@ -38,6 +38,7 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
@@ -303,14 +304,16 @@ function AppRoutes() {
 />
 
 <Route 
- path="/unauthorized" 
- element={<Unauthorized />} 
+  path="/unauthorized" 
+  element={<Unauthorized />} 
 />
 
   <Route 
   path="/auth-test" 
   element={<AuthTest />} 
 />
+
+        <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
     </BrowserRouter>
